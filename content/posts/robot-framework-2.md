@@ -9,8 +9,8 @@ tags:
 # - tag2
 keywords:
 - tech
-thumbnailImage: /images/rf_2.png
-coverImage: /images/rf_2.png
+thumbnailImage: "images/rf_2.jpg"
+coverImage: "images/rf_2.jpg"
 ---
 
 
