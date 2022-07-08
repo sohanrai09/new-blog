@@ -9,17 +9,17 @@ tags:
 # - tag2
 keywords:
 - tech
-thumbnailImage: "images/rf_2.jpg"
-coverImage: "images/rf_2.jpg"
+thumbnailImage: "https://images.pexels.com/photos/5409751/pexels-photo-5409751.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
+coverImage: "https://images.pexels.com/photos/5409751/pexels-photo-5409751.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
 ---
 
 
 
-It's been a while since my first [blog post](https://sohanrai09.github.io/blog/robot-framework/) as I mentioned there, I'm at a new job (well it's been 2 months, so 'newish') and I've been busy getting to know the job(as with any job, there is a LOT to learn!).
+It's been a while since my first [blog post](https://sohanrai09.github.io/new-blog/2022/04/robot-framework-1/) as I mentioned there, I'm at a new job (well it's been 2 months, so 'newish') and I've been busy getting to know the job(as with any job, there is a LOT to learn!).
 
 Learning [Robot Framework](https://robotframework.org/) (RF) has been one of my objectives in these first few months as that is entirely new for me. As I continue to learn and explore RF, I wanted to take some time out to share few things I have learnt. When it comes to network testing, it's not always about testing features, protocols, it also involves testing the hardware components. In this blog post, I want to discuss one such test scenario. This particular Test scenario would be to restart a FPC numerous times and to check and ensure it comes back up to Online state. This is what we call a `Negative Trigger Event` Testing. Now imagine having to do this manually, needless to say it's a time consuming task, this is where RF comes into play.
 
-In this post, I will only explain anything new I'm using in RF as compared to my first [blog post](https://sohanrai09.github.io/blog/robot-framework/).
+In this post, I will only explain anything new I'm using in RF as compared to my first [blog post](https://sohanrai09.github.io/new-blog/2022/04/robot-framework-1/).
 
 ### varibales.yaml
 In this post, I will be using a yaml file to input the variables rather than encoding them directly in the Test Suite file. We define the variables in a yaml file, like shown below, and access them as dictionaries in the Test Suite file.

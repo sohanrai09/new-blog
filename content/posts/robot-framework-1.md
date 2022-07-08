@@ -9,8 +9,8 @@ tags:
 # - tag2
 keywords:
 - tech
-thumbnailImage: "images/rf_1.jpg"
-coverImage: "images/rf_1.jpg"
+thumbnailImage: "https://images.pexels.com/photos/15286/pexels-photo.jpg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
+coverImage: "https://images.pexels.com/photos/15286/pexels-photo.jpg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
 ---
 
 
