@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>robotframework on Home</title>
+    <link>https://sohanrai09.github.io/new-blog/tags/robotframework/</link>
+    <description>Recent content in robotframework on Home</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sun, 03 Apr 2022 18:28:20 +0530</lastBuildDate><atom:link href="https://sohanrai09.github.io/new-blog/tags/robotframework/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Robot Framework 1</title>
+      <link>https://sohanrai09.github.io/new-blog/2022/04/robot-framework-1/</link>
+      <pubDate>Sun, 03 Apr 2022 18:28:20 +0530</pubDate>
+      
+      <guid>https://sohanrai09.github.io/new-blog/2022/04/robot-framework-1/</guid>
+      <description>In my new job role as a Test Engineer, knowing how to use Robot Framework for Automating Test Cases is crucial, to save time and to make testing more fun! As I&amp;rsquo;m going through this learning journey, I wanted to blog about it for anyone who is looking to start this journey and also to help me understand things in a better way.
+There are plenty of good resources out there which explains the Robot Framework and it&amp;rsquo;s components.</description>
+    </item>
+    
+  </channel>
+</rss>
