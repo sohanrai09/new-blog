@@ -9,6 +9,7 @@ tags:
 # - tag2
 keywords:
 - tech
+thumbnailImagePosition: left
 thumbnailImage: "https://images.pexels.com/photos/5409751/pexels-photo-5409751.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
 coverImage: "https://images.pexels.com/photos/5409751/pexels-photo-5409751.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
 ---
