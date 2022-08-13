@@ -344,5 +344,5 @@ Report:  /Users/sohanr/PycharmProjects/Robot_practise/report.html
 We see all our 3 Test Cases were executed with Test Case `TC - Post checks after the configuration change` failing, we will come back to this but before that, let's appreciate the Test Case `TC - Configuring the device` shall we? We see the TC passed, which means the configuration on the device was successful and we also see a config difference being printed out, neat, right?
 
 
-[report](/html_files/report.html)
-[log](/html_files/log.html)
+[report](/images/report.html)
+[log](/images/log.html)
