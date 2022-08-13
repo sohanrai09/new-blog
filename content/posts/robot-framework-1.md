@@ -155,7 +155,7 @@ To enter the Variable from command line, we use `-v` key, as shown below.
 
 PS C:\Users\User\PycharmProjects\Robotframework\Junos>robot -v expected_version:16.1R1.8 pyez_version.robot
 ==============================================================================
-Pyezz Version                                                                  
+Pyez Version                                                                  
 ==============================================================================
 TestCase1 :: Checking if the SW version matches the requirement       | FAIL |
 SW version doesn't match the requirement: 17.1R1.8 != 16.1R1.8                
