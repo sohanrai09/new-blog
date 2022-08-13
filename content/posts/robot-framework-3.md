@@ -14,7 +14,7 @@ thumbnailImage: "https://images.pexels.com/photos/924824/pexels-photo-924824.jpe
 coverImage: "https://images.pexels.com/photos/924824/pexels-photo-924824.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
 ---
 
-In this blog post I'll be going through a Test Scenario which involves multiple Test Cases with some interesting checks. I will be covering only the new things I've added for this Test Scenario when compared to my earlier posts, which can be found [here](https://sohanrai09.github.io/new-blog/). TestSuite begins with validating the network status on a particular device, this involves checking protocols such as OSPG,BGP and Interface Status etc. After ensuring network is in steady state, a configuration change is executed and after the change network is validated again to ensure there has been no network impact.
+In this blog post I'll be going through a Test Scenario which involves multiple Test Cases with some interesting checks. I will be covering only the new things I've added for this Test Scenario when compared to my earlier posts, which can be found [here](https://sohanrai09.github.io/new-blog/). Test Suite begins with validating the network status on a particular device, this involves checking protocols such as OSPG,BGP and Interface Status etc. After ensuring network is in steady state, a configuration change is executed and after the change network is validated again to ensure there has been no network impact.
 
 ### Variables
 
@@ -46,7 +46,7 @@ configure:
   save_cfg: True
   save_format: set
 ```
-First `dictionary` from the variables file, `device`, has the details needed to login to the device. As in my previous posts, I will be using Junos PyEz to interact with the device. Dictionary named `configure` has the parameters for configuration change, I will go through what exactly will be configured in later sections.
+First `dictionary` from the variables file, `device`, has the details needed to login to the device. As in my previous posts, I will be using Junos PyEz to interact with the device. Dictionary named `configure` has the parameters required for configuration change, I will go through what exactly will be configured in later sections.
 
 ### Resource
 
