@@ -343,6 +343,26 @@ Report:  /Users/sohanr/PycharmProjects/Robot_practise/report.html
 
 We see all our 3 Test Cases were executed with Test Case `TC - Post checks after the configuration change` failing, we will come back to this but before that, let's appreciate the Test Case `TC - Configuring the device` shall we? We see the TC passed, which means the configuration on the device was successful and we also see a config difference being printed out, neat, right?
 
+Now coming to the failure, from the execution we see that TC `TC - Post checks after the configuration change` failed, which means some check in `Sanity Checks` failed. We can also see `0 != 3` is the reason for failure, but it is not clear from here what exactly failed. As I have mentioned in my earlier posts as well, the best thing about using RF for testing, in my opinion, is the logs and reports being available in html, easy to veiw in the browser. Checking the [`report`](/images/report_3.html) generated for our Test Execution, we can see clearly that out of our 3 TCs, 2 Passed and 1 Failed. Now looking at the [`log`](/images/log_3.html), we can see `Test Suite Setup` and `Test Suite Teardown`, explanding the sections, we can see what exactly happened. 
 
-[report](/images/report.html)
-[log](/images/log.html)
+Let's take a look at couple of sections together, rest you should be explore yourself as it is quite intuitve.
+![log1](/images/log3_1.png)
+I have highlighted couple of things to make it easy to look, first one is where we see the device object being returned by Junos PyEz. Second one is where we see the variable which has the device object being set as `Suite Variable`, documentation makes it clear!
+
+Now, let's take a look at one of checks being done in TC 1, `TC - Pre checks before the configuration change & config backup`
+![log2](/images/log3_2.png)
+Here we see keyword `Sanity Checks` getting executed first, within which we have several keywords. Moving to `Ospf Neighbor Count` keyword, we can see `Ospf Nbr Count` being called which is defined in our Python file. This keyword or function returns the number of OSPF Neighbors in Full state, which in this is case is 3. Next, we see our verification `Should Be Equal`, checking if the value we defined is equal to the expected value.
+
+Skipping to Test Case `TC - Post checks after the configuration change`, where the failure occured, let's see if we can make sense of the failure.
+![log3](/images/log3_3.png)
+We can see that failure is seen in `Ospf Neighbor Count` keyword, we can see `Ospf Nbr Count` returning 0, which means there are no OSPF neighbors on the device in Full State. Due to this our verification fails as our expected value is 3 but the extracted value is 0! Checking on the device, we can see why.
+![router](/images/router.png)
+We see all our OSPF neighbors in `Exstart` state! Looking at closely the configuration change made.
+![config](/images/config.png)
+One of our changes included changing the MTU value to 1400 for a group, ALL, which is being applied on the all the interfaces! 
+
+This may not have been a particularly difficuit issue to troubleshoot manually but using RF we were able to Test and ensure if our change was successfull or not. Let's say you want to add few more checks to your Test Suite, write Python functions and create a keyword in `Keywords` file, easy! Or you are performing a Softwar Upgrade and want to run some pre and post checks to ensure nothing is broken, you can write a Test Suite like this to automate the checks and the upgrade itself!
+
+I know there was a lot to go through for someone who is starting with RF but I hope I have been clear in explaining everything. As always, if something is not clear please feel free to reach out to me.
+
+
