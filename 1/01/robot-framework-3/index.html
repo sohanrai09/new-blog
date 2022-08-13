@@ -1,0 +1,293 @@
+<!doctype html><html lang=en-us><head><script type=application/ld+json>{"@context":"https://schema.org","@type":"BlogPosting","headline":"Robot Framework 3","image":"https://images.pexels.com/photos/924824/pexels-photo-924824.jpeg?auto=compress\u0026cs=tinysrgb\u0026w=1260\u0026h=750\u0026dpr=2","datePublished":"0001-01-01T00:00:00Z","dateModified":"0001-01-01T00:00:00Z","author":{"@type":"Person","name":"Sohan Rai","image":"https://avatars.githubusercontent.com/u/89385413?v=4t"},"mainEntityOfPage":{"@type":"WebPage","@id":"https:\/\/sohanrai09.github.io\/new-blog\/1\/01\/robot-framework-3\/"},"publisher":{"@type":"Organization","name":"Home","logo":{"@type":"ImageObject","url":"https://avatars.githubusercontent.com/u/89385413?v=4t"}},"description":"In this blog post I\u0026rsquo;ll be going through a Test Scenario which involves multiple Test Cases with some interesting checks. I will be covering only the new things I\u0026rsquo;ve added for this Test Scenario when compared to my earlier posts, which can be found here. TestSuite begins with validating the network status on a particular device, this involves checking protocols such as OSPG,BGP and Interface Status etc. After ensuring network is in steady state, a configuration change is executed and after the change network is validated again to ensure there has been no network impact.","keywords":["tech"]}</script><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta http-equiv=x-ua-compatible content="IE=edge"><meta name=generator content="Hugo 0.101.0 with theme Tranquilpeak 0.5.3-BETA"><meta name=author content="Sohan Rai"><meta name=keywords content="tech"><meta name=description content="In this blog post I&rsquo;ll be going through a Test Scenario which involves multiple Test Cases with some interesting checks. I will be covering only the new things I&rsquo;ve added for this Test Scenario when compared to my earlier posts, which can be found here. TestSuite begins with validating the network status on a particular device, this involves checking protocols such as OSPG,BGP and Interface Status etc. After ensuring network is in steady state, a configuration change is executed and after the change network is validated again to ensure there has been no network impact."><meta property="og:description" content="In this blog post I&rsquo;ll be going through a Test Scenario which involves multiple Test Cases with some interesting checks. I will be covering only the new things I&rsquo;ve added for this Test Scenario when compared to my earlier posts, which can be found here. TestSuite begins with validating the network status on a particular device, this involves checking protocols such as OSPG,BGP and Interface Status etc. After ensuring network is in steady state, a configuration change is executed and after the change network is validated again to ensure there has been no network impact."><meta property="og:type" content="article"><meta property="og:title" content="Robot Framework 3"><meta name=twitter:title content="Robot Framework 3"><meta property="og:url" content="https://sohanrai09.github.io/new-blog/1/01/robot-framework-3/"><meta property="twitter:url" content="https://sohanrai09.github.io/new-blog/1/01/robot-framework-3/"><meta property="og:site_name" content="Home"><meta property="og:description" content="In this blog post I&rsquo;ll be going through a Test Scenario which involves multiple Test Cases with some interesting checks. I will be covering only the new things I&rsquo;ve added for this Test Scenario when compared to my earlier posts, which can be found here. TestSuite begins with validating the network status on a particular device, this involves checking protocols such as OSPG,BGP and Interface Status etc. After ensuring network is in steady state, a configuration change is executed and after the change network is validated again to ensure there has been no network impact."><meta name=twitter:description content="In this blog post I&rsquo;ll be going through a Test Scenario which involves multiple Test Cases with some interesting checks. I will be covering only the new things I&rsquo;ve added for this Test Scenario when compared to my earlier posts, which can be found here. TestSuite begins with validating the network status on a particular device, this involves checking protocols such as OSPG,BGP and Interface Status etc. After ensuring network is in steady state, a configuration change is executed and after the change network is validated again to ensure there has been no network impact."><meta property="og:locale" content="en-us"><meta property="article:section" content="robotframework"><meta property="article:tag" content="robotframework"><meta name=twitter:card content="summary"><meta property="og:image" content="https://avatars.githubusercontent.com/u/89385413?v=4t"><meta property="twitter:image" content="https://avatars.githubusercontent.com/u/89385413?v=4t"><meta property="og:image" content="https://images.pexels.com/photos/924824/pexels-photo-924824.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"><meta property="twitter:image" content="https://images.pexels.com/photos/924824/pexels-photo-924824.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"><meta property="og:image" content="https://images.pexels.com/photos/924824/pexels-photo-924824.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"><meta property="twitter:image" content="https://images.pexels.com/photos/924824/pexels-photo-924824.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"><title>Robot Framework 3</title><link rel=icon href=https://sohanrai09.github.io/new-blog/favicon.png><link rel=canonical href=https://sohanrai09.github.io/new-blog/1/01/robot-framework-3/><link rel=stylesheet href=https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css integrity="sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/gI1w==" crossorigin=anonymous referrerpolicy=no-referrer><link rel=stylesheet href=https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.css integrity="sha512-H9jrZiiopUdsLpg94A333EfumgUBpO9MdbxStdeITo+KEIMaNfHNvwyjjDJb+ERPaRS6DpyRlKbvPUasNItRyw==" crossorigin=anonymous referrerpolicy=no-referrer><link rel=stylesheet href=https://sohanrai09.github.io/new-blog/css/style-h6ccsoet3mzkbb0wngshlfbaweimexgqcxj0h5hu4h82olsdzz6wmqdkajm.min.css></head><body><div id=blog><header id=header data-behavior=4><i id=btn-open-sidebar class="fa fa-lg fa-bars"></i><div class=header-title><a class=header-title-link href=https://sohanrai09.github.io/new-blog/ aria-label="Go to homepage">Home</a></div><a class=header-right-picture href=https://sohanrai09.github.io/new-blog/#about aria-label="Open the link: /#about"><img class=header-picture src="https://avatars.githubusercontent.com/u/89385413?v=4t" alt="Author's picture"></a></header><nav id=sidebar data-behavior=4><div class=sidebar-container><div class=sidebar-profile><a href=https://sohanrai09.github.io/new-blog/#about aria-label="Read more about the author"><img class=sidebar-profile-picture src="https://avatars.githubusercontent.com/u/89385413?v=4t" alt="Author's picture"></a><h4 class=sidebar-profile-name>Sohan Rai</h4><h5 class=sidebar-profile-bio>Network Engineer exploring the Network Automation world</h5></div><ul class=sidebar-buttons><li class=sidebar-button><a class=sidebar-button-link href=https://sohanrai09.github.io/new-blog/ title=Home><i class="sidebar-button-icon fas fa-lg fa-home" aria-hidden=true></i>
+<span class=sidebar-button-desc>Home</span></a></li><li class=sidebar-button><a class=sidebar-button-link href=https://sohanrai09.github.io/new-blog/categories title=Categories><i class="sidebar-button-icon fas fa-lg fa-bookmark" aria-hidden=true></i>
+<span class=sidebar-button-desc>Categories</span></a></li><li class=sidebar-button><a class=sidebar-button-link href=https://sohanrai09.github.io/new-blog/tags title=Tags><i class="sidebar-button-icon fas fa-lg fa-tags" aria-hidden=true></i>
+<span class=sidebar-button-desc>Tags</span></a></li><li class=sidebar-button><a class=sidebar-button-link href=https://sohanrai09.github.io/new-blog/#about title=About><i class="sidebar-button-icon fas fa-lg fa-question" aria-hidden=true></i>
+<span class=sidebar-button-desc>About</span></a></li></ul><ul class=sidebar-buttons><li class=sidebar-button><a class=sidebar-button-link href=https://github.com/sohanrai09 target=_blank rel=noopener title=GitHub><i class="sidebar-button-icon fab fa-lg fa-github" aria-hidden=true></i>
+<span class=sidebar-button-desc>GitHub</span></a></li><li class=sidebar-button><a class=sidebar-button-link href=https://twitter.com/SohanRai23 target=_blank rel=noopener title=Twitter><i class="sidebar-button-icon fab fa-lg fa-twitter" aria-hidden=true></i>
+<span class=sidebar-button-desc>Twitter</span></a></li></ul><ul class=sidebar-buttons></ul></div></nav><div class="post-header-cover
+text-left" style="background-image:url(https://images.pexels.com/photos/924824/pexels-photo-924824.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2)" data-behavior=4><div class="post-header main-content-wrap text-left"><h1 class=post-title>Robot Framework 3</h1><div class="postShorten-meta post-meta"><time datetime=0001-01-01T00:00:00Z>January 1, 1</time>
+<span>in</span>
+<a class=category-link href=https://sohanrai09.github.io/new-blog/categories/robotframework>robotframework</a></div></div></div><div id=main data-behavior=4 class="hasCover
+hasCoverMetaIn"><article class=post id=top><div class="post-content markdown"><div class=main-content-wrap><p>In this blog post I&rsquo;ll be going through a Test Scenario which involves multiple Test Cases with some interesting checks. I will be covering only the new things I&rsquo;ve added for this Test Scenario when compared to my earlier posts, which can be found <a href=https://sohanrai09.github.io/new-blog/>here</a>. TestSuite begins with validating the network status on a particular device, this involves checking protocols such as OSPG,BGP and Interface Status etc. After ensuring network is in steady state, a configuration change is executed and after the change network is validated again to ensure there has been no network impact.</p><h3 id=variables>Variables</h3><p>I will be using a <code>yaml</code> file to input the variables, this becomes convinent as we can extract data from yaml as lists, dicts etc.</p><pre tabindex=0><code>---
+device:
+    ip: &#39;66.129.234.213&#39;
+    user: &#39;jcluser&#39;
+    pwd: &#39;Juniper!1&#39;
+    port: &#39;49003&#39;
+interface:
+    up_count: 48
+ospf:
+    nbr_full: 3
+bgp:
+  peers_up: 1
+system_alarms:
+  active_count: 2
+configure:
+  intf1:
+    name: &#39;ge-0/0/4&#39;
+    unit: 0
+    ipv4_addr: &#39;192.168.1.1/24&#39;
+    ipv6_addr: &#39;1::1/64&#39;
+    descr: &#34;Testing RF&#34;
+    family: inet
+    group: ALL
+  save_cfg: True
+  save_format: set
+</code></pre><p>First <code>dictionary</code> from the variables file, <code>device</code>, has the details needed to login to the device. As in my previous posts, I will be using Junos PyEz to interact with the device. Dictionary named <code>configure</code> has the parameters for configuration change, I will go through what exactly will be configured in later sections.</p><h3 id=resource>Resource</h3><p>By this blog post we know that the <code>Keywords</code> needed in our Test Suite will be defined as a Python Function in <code>Resource</code> file.</p><pre tabindex=0><code>from jnpr.junos import Device
+from jnpr.junos.utils.config import Config
+import xml.etree.ElementTree as ET
+
+
+def connect_to_device(host, user, pwd, port):
+    dev = Device(host=host, user=user, password=pwd, port=port)
+    dev.open()
+    return dev
+
+
+def teardown(device):
+    device.close()
+    
+
+def intf_up_count(device):
+    intf_xml = device.rpc.get_interface_information(terse=True)
+    physical_up_count = intf_xml.xpath(&#34;.//physical-interface[oper-status=&#39;\nup\n&#39;]&#34;)
+    logical_count = intf_xml.xpath(&#34;.//physical-interface/logical-interface[oper-status=&#39;\nup\n&#39;]&#34;)
+    return len(physical_up_count)+len(logical_count)
+
+
+def ospf_nbr_count(device):
+    ospf_xml = device.rpc.get_ospf_neighbor_information()
+    full_nbr_count = ospf_xml.xpath(&#34;.//ospf-neighbor[ospf-neighbor-state=&#39;Full&#39;]&#34;)
+    return len(full_nbr_count)
+
+
+def bgp_up_count(device):
+    bgp_xml = device.rpc.get_bgp_summary_information()
+    total_peers = bgp_xml.findtext(&#34;.//peer-count&#34;)
+    down_peers = bgp_xml.findtext(&#34;.//down-peer-count&#34;)
+    return int(total_peers)-int(down_peers)
+
+
+def sys_alarm_check(device):
+    alarm_xml = device.rpc.get_system_alarm_information()
+    alarm_count = alarm_xml.findtext(&#34;.//active-alarm-count&#34;)
+    return int(alarm_count)
+
+
+def cfg_back(device, cfg_format):
+    conf_xml = device.rpc.get_config(options={&#39;format&#39;: cfg_format})
+    conf_str = ET.tostring(conf_xml)
+    conf_list = conf_str.decode(&#39;UTF-8&#39;).splitlines()[1:-1]
+    hostname = device.facts[&#39;hostname&#39;]
+    with open(f&#34;{hostname}_backup&#34;, &#34;w&#34;) as f:
+        for line in conf_list:
+            f.write(f&#34;{line}\n&#34;)
+    return hostname
+
+
+def configuration(device, config_vars):
+    with Config(device, mode=&#39;private&#39;) as cu:
+        cu.load(template_path=&#39;config.conf&#39;, template_vars=config_vars, merge=True, format=&#39;set&#39;)
+        result = cu.commit()
+        return result
+</code></pre><p>As you can see, there are a lot of keywords this time! As mentioned earlier, I&rsquo;m using Junos PyEz here and the RPCs it offers to interact with the device. Although I&rsquo;m not going go over each line of this code, as it is quite straight foward, I would still like to mention couple of them, <code>cfg_back</code> and <code>configuration</code>. <code>cfg_back</code> is a function to retrieve the current configuration in given format(json,set,xml) and save or back it up to a file. I&rsquo;m using the RPC <code>get_config()</code> here, which extracts the configuration in given format but the output of RPC is still in xml. Followed by that couple of lines of code to sanitise the output from device and storing it in a file named after the <code>hostname</code> of the Device Under Testing (DUT). Please refer Juniper&rsquo;s official <a href=https://www.juniper.net/documentation/us/en/software/junos-pyez/junos-pyez-developer/topics/topic-map/junos-pyez-program-configuration-retrieving.html>documentation</a> to know more about retrieving configuration from a device.</p><p><code>configuration</code> function is used to make required configuration changes on the device. Junos PyEz has an utility named <code>Config</code> which I will be using here to make the configuration changes. To generate the required configuration, <code>jinja2</code> templating is used and the required variables are taken from the Variables file. <code>template_path</code> is the location of the jinja2 template and <code>template_vars</code> is the dictionary of variables for the jinja2 template which here comes from Variables file.</p><pre tabindex=0><code>set interfaces {{ name }} unit {{ unit }} description &#34;{{ descr }}&#34;
+{% if ipv4_addr %}
+set interfaces {{ name }} unit {{ unit }} family inet address {{ ipv4_addr }}
+{% endif %}
+{% if ipv6_addr %}
+set interfaces {{ name }} unit {{ unit }} family inet6 address {{ ipv6_addr }}
+{% endif %}
+set interfaces {{ name }} apply-groups {{ group }}
+set groups {{ group }} interfaces &lt;*&gt; mtu 1400
+</code></pre><pre tabindex=0><code># This is from the yaml file used as Variables file (template_vars).
+configure:
+  intf1:
+    name: &#39;ge-0/0/4&#39;
+    unit: 0
+    ipv4_addr: &#39;192.168.1.1/24&#39;
+    ipv6_addr: &#39;1::1/64&#39;
+    descr: &#34;Testing RF&#34;
+    family: inet
+    group: ALL
+  save_cfg: True
+  save_format: set
+</code></pre><h3 id=keywords>Keywords</h3><p><code>Keywords</code> file is a collection of Keywords, having a Keywords file seperately rather than defining Keywords in Test Suite itself is quite handy. Same Keywords file can be used for multiple Test Suites and any new Keyword would be added here to make it readily available in all the Test Suites using this Keywords file. And since this is a <code>robot</code> file, we can make use various <a href=https://robotframework.org/robotframework/latest/libraries/BuiltIn.html>builtin</a> keywords available in RF.</p><pre tabindex=0><code>*** Keywords ***
+
+Interface Up Count
+    [Documentation]      Keyword to check and verify number of interfaces that are UP
+    [Arguments]          ${device}
+    ${int_up}            Intf Up Count    ${device}
+    should be equal    ${int_up}     ${interface.up_count}
+
+Ospf Neighbor Count
+    [Documentation]     Keyword to check and verify number OSPF neighbors in Full State
+    [Arguments]         ${device}
+    ${ospf_full}        OSPF Nbr Count    ${device}
+    should be equal    ${ospf_full}     ${ospf.nbr_full}
+
+BGP Neighbor Count
+    [Documentation]    Keyword to check and verify the number of BGP Peers that are UP
+    [Arguments]    ${device}
+    ${bgp_up}     BGP Up Count    ${device}
+    should be equal    ${bgp_up}    ${bgp.peers_up}
+
+System Alarm Check
+    [Documentation]    keyword to check and verify system alarm count
+    [Arguments]    ${device}
+    ${sys_alarms}    Sys Alarm Check    ${device}
+    should be equal    ${sys_alarms}    ${system_alarms.active_count}
+
+Configuring Device
+    [Documentation]    keyword to make the required config changes
+    [Arguments]    ${device}    ${config_vars}
+    ${result}    ${diff}    Configuration     ${device}     ${config_vars}
+    should be true    ${result}
+    log to console    \nConfiguration applied successfully!
+    log to console    \n~~~~ Config Diff ~~~~\n${diff}\n
+
+Config Backup
+    [Documentation]    keyword to save the config before making changes, format can be set, json, xml.
+    [Arguments]    ${device}    ${cfg_format}
+    ${filename}    Cfg Back    ${device}    ${cfg_format}
+    log to console    \nBackup Filename: ${filename}
+</code></pre><p>Again, quite a few Keywords but if you look closely, they are all similar, so let&rsquo;s go over a couple of them. <code>Interface Up Count</code> as documentation states, is used to check and verify the number of UP interfaces. This Keyword expects one argument, <code>$device</code> which will be passed from Test Suite file. <code>${int_up}</code> is the variable used to hold the output from the Keyword <code>Intf Up Count</code>, which is nothing but a function defined in the Resource file, shown below for quick reference.</p><pre tabindex=0><code>def intf_up_count(device):
+    intf_xml = device.rpc.get_interface_information(terse=True)
+    physical_up_count = intf_xml.xpath(&#34;.//physical-interface[oper-status=&#39;\nup\n&#39;]&#34;)
+    logical_count = intf_xml.xpath(&#34;.//physical-interface/logical-interface[oper-status=&#39;\nup\n&#39;]&#34;)
+    return len(physical_up_count)+len(logical_count)
+</code></pre><p>Output from the function/keyword is then passed to the builtin keyword <code>should be equal</code> to compare the extracted value with the expected value <code>${interface_count}</code>, dictionary named <code>interface</code> with the key <code>up_count</code> in the Variables file.</p><p>Keyword <code>Configuration Device</code> is worth taking a look, this one expectes two arguments <code>${device}</code> and <code>${config_vars}</code>. As mentioned earlier, <code>${config_vars}</code> is a dictionary with variables required by jinja2 template to generate the required configuration. This keyword returns 2 values, one if the configuration was successful or not and two the configuration difference between the running and candidate config.</p><h3 id=test-suite>Test Suite</h3><p>Everything comes together now in the Test Suite file, let&rsquo;s break it down and take a look at it in sections.</p><pre tabindex=0><code>*** Settings ***
+Library         functions.py
+Variables       var.yml
+Suite Setup     Test Suite Setup
+Resource        my_keywords.robot
+Suite Teardown    Test Suite Teardown
+</code></pre><p><code>Settings</code> section is used to define the various files required for the Test Suite, new to this Test Suite is <a href=https://robotframework.org/robotframework/latest/RobotFrameworkUserGuide.html#suite-setup-and-teardown><code>Suite Setup</code></a>. This is used to execute anything before running the Test Cases in the Test Suite, and in this case we will be initiating the connection to the device as a part of <code>Suite Setup</code>. Similarly, we have <code>Suite Teardown</code> which is executed after all the Test Cases are excuted.</p><pre tabindex=0><code>*** Keywords ***
+Test Suite Setup
+    [Documentation]    To initialise connection to the device
+
+    ${conn}    Connect To Device    ${device.ip}    ${device.user}    ${device.pwd}    ${device.port}
+    Set Suite Variable            ${conn}
+
+Test Suite Teardown
+    [Documentation]    To close the connection to the device gracefully
+
+    Teardown    ${conn}
+</code></pre><p><code>Test Suite Setup</code> as mentioned earlier, is used to initialise a connection to the device, this is done using a keyword (in other words Python function) <code>Connect To Device</code>. <code>${conn}</code> variable holds the return value from the keyword, which is nothing but the Device Object. <a href=https://robotframework.org/robotframework/latest/libraries/BuiltIn.html#Set%20Suite%20Variable><code>Set Suite Variable</code></a> is used to ensure the variable <code>${conn}</code> is available throughout the Test Suite. <code>Test Suite Teardown</code> is used to close the connection to the device gracefully.</p><p>Continuing with the Test Suite, we reach the <code>Test Cases</code> section. I have included 3 Test Cases, one to check the network state before change, two to make the configuration change and three to check the network state post change to validate.</p><pre tabindex=0><code>*** Test Cases ***
+TC - Pre checks before the configuration change &amp; config backup
+    [Documentation]     In this testcase various network functions will be checked and matched against a given set
+    ...    of ideal values. Test Case would fail if there are any mismatches
+
+    Sanity Checks    ${conn}
+
+    # Backup the current configuration before change
+    run keyword if    ${configure.save_cfg}==True
+    ...    run keyword and continue on failure    Config Backup         ${conn}    ${configure.save_format}
+
+TC - Configuring the device
+    [Documentation]    Configure the device using &#34;config.conf&#34; as the Jinja2 template, with variables from var.yml
+    ${config_vars}    set variable    ${configure.intf1}
+    run keyword and continue on failure    Configuring Device    ${conn}    ${config_vars}
+    log to console    \nWait for 5sec before starting the Post checks
+    sleep    5
+
+TC - Post checks after the configuration change
+    [Documentation]     In this testcase various network functions will be checked and matched against a given set
+    ...    of ideal values. Test Case would fail if there are any mismatches
+
+    Sanity Checks    ${conn}
+</code></pre><p><code>Sanity Checks</code> is a keyword which has a bunch of tests to be run as a part of network validation, shown below. <code>run keyword if</code> as it says, would be executed when a given condition is met. In this case, we are checking if variable <code>${configure.save_cfg}</code> is set to <code>True</code>, this values again comes from the Variables file. When True, <code>Config Backup</code> keyword is executed which as seen before saves the current configuration to a .txt file.</p><pre tabindex=0><code>Sanity Checks
+    [Documentation]    list of checks to run before and after a configuration change
+    [Arguments]    ${conn}
+
+    log to console    \nVerifying Interface UP count
+    run keyword and continue on failure    Interface Up Count    ${conn}
+
+    log to console    \nVerifying OSPF Neighbor UP count
+    run keyword and continue on failure    Ospf Neighbor Count    ${conn}
+
+    log to console    \nVerifying BGP Peer UP count
+    run keyword and continue on failure    BGP Neighbor Count    ${conn}
+
+    log to console    \nVerifying System Alarms
+    run keyword and continue on failure    System Alarm Check    ${conn}
+</code></pre><p>Going past the documentation part, we see 4 keywords in action, with the majority of them using the builtin <code>run keyword and continue on failure</code> option. This is a handy option when you&rsquo;re running a bunch of tests and you don&rsquo;t want the test execution to stop when there is a failure. With this option, we can ensure that all the tests are run and failures are captured.</p><h3 id=test-exection>Test Exection</h3><p>With all the required bits in place, we go ahead with Test Execution.</p><pre tabindex=0><code>(venv) sohanr@sohanr-mbp Robot_practise % robot configure_tc.robot
+==============================================================================
+Configure Tc                                                                  
+==============================================================================
+TC - Pre checks before the configuration change &amp; config backup ::... 
+Verifying Interface UP count
+
+Verifying OSPF Neighbor UP count
+
+Verifying BGP Peer UP count
+
+Verifying System Alarms
+.
+Backup Filename: vMX1
+
+TC - Pre checks before the configuration change &amp; config backup ::... | PASS |
+------------------------------------------------------------------------------
+TC - Configuring the device :: Configure the device using &#34;config.... .
+Configuration applied successfully!
+
+~~~~ Config Diff ~~~~
+
+[edit groups ALL interfaces &lt;*&gt;]
++    mtu 1400;
+[edit interfaces]
++   ge-0/0/4 {
++       apply-groups ALL;
++       unit 0 {
++           description &#34;Testing RF&#34;;
++           family inet {
++               address 192.168.1.1/24;
++           }
++           family inet6 {
++               address 1::1/64;
++           }
++       }
++   }
+
+
+.
+Wait for 5sec before starting the Post checks
+TC - Configuring the device :: Configure the device using &#34;config.... | PASS |
+------------------------------------------------------------------------------
+TC - Post checks after the configuration change :: In this testcas... 
+Verifying Interface UP count
+
+Verifying OSPF Neighbor UP count
+
+Verifying BGP Peer UP count
+
+Verifying System Alarms
+TC - Post checks after the configuration change :: In this testcas... | FAIL |
+0 != 3
+------------------------------------------------------------------------------
+Configure Tc                                                          | FAIL |
+3 tests, 2 passed, 1 failed
+==============================================================================
+Output:  /Users/sohanr/PycharmProjects/Robot_practise/output.xml
+Log:     /Users/sohanr/PycharmProjects/Robot_practise/log.html
+Report:  /Users/sohanr/PycharmProjects/Robot_practise/report.html
+(venv) sohanr@sohanr-mbp Robot_practise % 
+</code></pre><p>We see all our 3 Test Cases were executed with Test Case <code>TC - Post checks after the configuration change</code> failing, we will come back to this but before that, let&rsquo;s appreciate the Test Case <code>TC - Configuring the device</code> shall we? We see the TC passed, which means the configuration on the device was successful and we also see a config difference being printed out, neat, right?</p><p><a href=https://sohanrai09.github.io/new-blog/html_files/report.html>report</a>
+<a href=https://sohanrai09.github.io/new-blog/html_files/log.html>log</a></p></div></div><div id=post-footer class="post-footer main-content-wrap"><div class=post-footer-tags><span class="text-color-light text-small">TAGGED IN</span><br><a class="tag tag--primary tag--small" href=https://sohanrai09.github.io/new-blog/tags/robotframework/>robotframework</a></div><div class=post-actions-wrap><nav><ul class="post-actions post-action-nav"><li class=post-action><a class="post-action-btn btn btn--default tooltip--top" href=https://sohanrai09.github.io/new-blog/2022/04/robot-framework-1/ data-tooltip="Robot Framework 1" aria-label="NEXT: Robot Framework 1"><i class="fa fa-angle-left"></i>
+<span class="hide-xs hide-sm text-small icon-ml">NEXT</span></a></li><li class=post-action><a class="post-action-btn btn btn--disabled"><span class="hide-xs hide-sm text-small icon-mr">PREVIOUS</span>
+<i class="fa fa-angle-right"></i></a></li></ul></nav><ul class="post-actions post-action-share"><li class="post-action hide-lg hide-md hide-sm"><a class="post-action-btn btn btn--default btn-open-shareoptions" href=#btn-open-shareoptions aria-label="Share this post"><i class="fa fa-share-alt" aria-hidden=true></i></a></li><li class="post-action hide-xs"><a class="post-action-btn btn btn--default" target=new href="https://www.facebook.com/sharer/sharer.php?u=https://sohanrai09.github.io/new-blog/1/01/robot-framework-3/" title="Share on Facebook" aria-label="Share on Facebook"><i class="fab fa-facebook-square" aria-hidden=true></i></a></li><li class="post-action hide-xs"><a class="post-action-btn btn btn--default" target=new href="https://twitter.com/intent/tweet?text=https://sohanrai09.github.io/new-blog/1/01/robot-framework-3/" title="Share on Twitter" aria-label="Share on Twitter"><i class="fab fa-twitter" aria-hidden=true></i></a></li><li class="post-action hide-xs"><a class="post-action-btn btn btn--default" target=new href="https://www.linkedin.com/sharing/share-offsite/?url=https://sohanrai09.github.io/new-blog/1/01/robot-framework-3/" title="Share on Linkedin" aria-label="Share on Linkedin"><i class="fab fa-linkedin" aria-hidden=true></i></a></li><li class=post-action><a class="post-action-btn btn btn--default" href=#top aria-label="Back to top"><i class="fa fa-arrow-up" aria-hidden=true></i></a></li></ul></div></div></article><footer id=footer class=main-content-wrap><span class=copyrights>&copy; 2022 Sohan Rai. All Rights Reserved</span></footer></div><div id=bottom-bar class=post-bottom-bar data-behavior=4><div class=post-actions-wrap><nav><ul class="post-actions post-action-nav"><li class=post-action><a class="post-action-btn btn btn--default tooltip--top" href=https://sohanrai09.github.io/new-blog/2022/04/robot-framework-1/ data-tooltip="Robot Framework 1" aria-label="NEXT: Robot Framework 1"><i class="fa fa-angle-left"></i>
+<span class="hide-xs hide-sm text-small icon-ml">NEXT</span></a></li><li class=post-action><a class="post-action-btn btn btn--disabled"><span class="hide-xs hide-sm text-small icon-mr">PREVIOUS</span>
+<i class="fa fa-angle-right"></i></a></li></ul></nav><ul class="post-actions post-action-share"><li class="post-action hide-lg hide-md hide-sm"><a class="post-action-btn btn btn--default btn-open-shareoptions" href=#btn-open-shareoptions aria-label="Share this post"><i class="fa fa-share-alt" aria-hidden=true></i></a></li><li class="post-action hide-xs"><a class="post-action-btn btn btn--default" target=new href="https://www.facebook.com/sharer/sharer.php?u=https://sohanrai09.github.io/new-blog/1/01/robot-framework-3/" title="Share on Facebook" aria-label="Share on Facebook"><i class="fab fa-facebook-square" aria-hidden=true></i></a></li><li class="post-action hide-xs"><a class="post-action-btn btn btn--default" target=new href="https://twitter.com/intent/tweet?text=https://sohanrai09.github.io/new-blog/1/01/robot-framework-3/" title="Share on Twitter" aria-label="Share on Twitter"><i class="fab fa-twitter" aria-hidden=true></i></a></li><li class="post-action hide-xs"><a class="post-action-btn btn btn--default" target=new href="https://www.linkedin.com/sharing/share-offsite/?url=https://sohanrai09.github.io/new-blog/1/01/robot-framework-3/" title="Share on Linkedin" aria-label="Share on Linkedin"><i class="fab fa-linkedin" aria-hidden=true></i></a></li><li class=post-action><a class="post-action-btn btn btn--default" href=#top aria-label="Back to top"><i class="fa fa-arrow-up" aria-hidden=true></i></a></li></ul></div></div><div id=share-options-bar class=share-options-bar data-behavior=4><i id=btn-close-shareoptions class="fa fa-times"></i><ul class=share-options><li class=share-option><a class=share-option-btn target=new href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fsohanrai09.github.io%2Fnew-blog%2F1%2F01%2Frobot-framework-3%2F" aria-label="Share on Facebook"><i class="fab fa-facebook-square" aria-hidden=true></i><span>Share on Facebook</span></a></li><li class=share-option><a class=share-option-btn target=new href="https://twitter.com/intent/tweet?text=https%3A%2F%2Fsohanrai09.github.io%2Fnew-blog%2F1%2F01%2Frobot-framework-3%2F" aria-label="Share on Twitter"><i class="fab fa-twitter" aria-hidden=true></i><span>Share on Twitter</span></a></li><li class=share-option><a class=share-option-btn target=new href="https://www.linkedin.com/sharing/share-offsite/?url=https%3A%2F%2Fsohanrai09.github.io%2Fnew-blog%2F1%2F01%2Frobot-framework-3%2F" aria-label="Share on Linkedin"><i class="fab fa-linkedin" aria-hidden=true></i><span>Share on Linkedin</span></a></li></ul></div><div id=share-options-mask class=share-options-mask></div></div><div id=about><div id=about-card><div id=about-btn-close><i class="fa fa-times"></i></div><img id=about-card-picture src="https://avatars.githubusercontent.com/u/89385413?v=4t" alt="Author's picture"><h4 id=about-card-name>Sohan Rai</h4><div id=about-card-bio>Network Engineer exploring the Network Automation world</div><div id=about-card-job><i class="fa fa-briefcase"></i><br>Network Engineer</div><div id=about-card-location><i class="fa fa-map-marker-alt"></i><br>India</div></div></div><div id=cover style=background-image:url(https://sohanrai09.github.io/new-blog/images/cover_img.jpg)></div><script src=https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" crossorigin=anonymous referrerpolicy=no-referrer></script>
+<script src=https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.1.0/highlight.min.js integrity="sha512-z+/WWfyD5tccCukM4VvONpEtLmbAm5LDu7eKiyMQJ9m7OfPEDL7gENyDRL3Yfe8XAuGsS2fS4xSMnl6d30kqGQ==" crossorigin=anonymous referrerpolicy=no-referrer></script>
+<script src=https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.js integrity="sha512-uURl+ZXMBrF4AwGaWmEetzrd+J5/8NRkWAvJx5sbPSSuOb0bZLqf+tOzniObO00BjHa/dD7gub9oCGMLPQHtQA==" crossorigin=anonymous referrerpolicy=no-referrer></script>
+<script src=https://sohanrai09.github.io/js/script-yqzy9wdlzix4lbbwdnzvwx3egsne77earqmn73v9uno8aupuph8wfguccut.min.js></script>
+<script async crossorigin=anonymous defer integrity="sha512-gE8KAQyFIzV1C9+GZ8TKJHZS2s+n7EjNtC+IMRn1l5+WYJTHOODUM6JSjZhFhqXmc7bG8Av6XXpckA4tYhflnw==" src=https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.1.0/languages/apache.min.js></script>
+<script async crossorigin=anonymous defer integrity="sha512-EWROca+bote+7Oaaar1F6y74iZj1r1F9rm/ly7o+/FwJopbBaWtsFDmaKoZDd3QiGU2pGacBirHJNivmGLYrow==" src=https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.1.0/languages/go.min.js></script>
+<script async crossorigin=anonymous defer integrity="sha512-GDVzAn0wpx1yVtQsRWmFc6PhJiLBPdUic+h4GWgljBh904O3JU10fk9EKNpVyIoPqkFn54rgL2QBG4BmUTMpiQ==" src=https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.1.0/languages/http.min.js></script>
+<script async crossorigin=anonymous defer integrity="sha512-UgZlma8NzkrDb/NWgmLIcTrH7i/CSnLLDRFqCSNF5NGPpjKmzyM25qcoXGOup8+cDakKyaiTDd7N4dyH4YT+IA==" src=https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.1.0/languages/less.min.js></script>
+<script async crossorigin=anonymous defer integrity="sha512-lot9koe73sfXIrUvIPM/UEhuMciN56RPyBdOyZgfO53P2lkWyyXN7J+njcxIIBRV+nVDQeiWtiXg+bLAJZDTfg==" src=https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.1.0/languages/nginx.min.js></script>
+<script async crossorigin=anonymous defer integrity="sha512-Zd3e7XxHP00TD0Imr0PIfeM0fl0v95kMWuhyAS3Wn1UTSXTkz0OhtRgBAr4JlmADRgiXr4x7lpeUdqaGN8xIog==" src=https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.1.0/languages/puppet.min.js></script>
+<script async crossorigin=anonymous defer integrity="sha512-qtqDO052iXMSP+5d/aE/jMtL9vIIGvONgTJziC2K/ZIB1yEGa55WVxGE9/08rSQ62EoDifS9SWVGZ7ihSLhzMA==" src=https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.1.0/languages/scss.min.js></script>
+<script async crossorigin=anonymous defer integrity="sha512-1NmkjnEDnwwwcu28KoQF8vs3oaPFokQHbmbtwGhFfeDsQZtVFI8zW2aE9O8yMYdpdyKV/5blE4pSWw4Z/Sv97w==" src=https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.1.0/languages/stylus.min.js></script>
+<script async crossorigin=anonymous defer integrity="sha512-B2wSfruPjr8EJL6IIzQr1eAuDwrsfIfccNf/LCEdxELCgC/S/ZMt/Uvk80aD79m7IqOqW+Sw8nbkvha20yZpzg==" src=https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.1.0/languages/swift.min.js></script>
+<script async crossorigin=anonymous defer integrity="sha512-28oDiQZGKUVN6wQ7PSLPNipOcmkCALXKwOi7bnkyFf8QiMZQxG9EQoy/iiNx6Zxj2cG2SbVa4dXKigQhu7GiFw==" src=https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.1.0/languages/yaml.min.js></script>
+<script>$(document).ready(function(){hljs.configure({classPrefix:"",useBR:!1}),$("pre.code-highlight > code, pre > code").each(function(e,t){$(this).hasClass("codeblock")||$(this).addClass("codeblock"),hljs.highlightBlock(t)})})</script></body></html>
