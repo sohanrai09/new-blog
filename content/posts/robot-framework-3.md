@@ -1,6 +1,6 @@
 ---
 title: "Robot Framework 3"
-date: 2022-00-12T19:02:18+05:30
+date: 2022-08-14T10:13:42+05:30
 categories:
 - robotframework
 #- subcategory
@@ -46,7 +46,7 @@ configure:
   save_cfg: True
   save_format: set
 ```
-First `dictionary` from the variables file, `device`, has the details needed to login to the device. As in my previous posts, I will be using Junos PyEz to interact with the device. Dictionary named `configure` has the parameters required for configuration change, I will go through what exactly will be configured in later sections.
+First dictionary from the variables file, `device`, has the details needed to login to the device. As in my previous posts, I will be using Junos PyEz to interact with the device. Dictionary named `configure` has the parameters required for configuration change, I will go through what exactly will be configured in later sections.
 
 ### Resource
 
@@ -110,9 +110,9 @@ def configuration(device, config_vars):
         result = cu.commit()
         return result
 ```
-As you can see, there are a lot of keywords this time! As mentioned earlier, I'm using Junos PyEz here and the RPCs it offers to interact with the device. Although I'm not going go over each line of this code, as it is quite straight foward, I would still like to mention couple of them, `cfg_back` and `configuration`. `cfg_back` is a function to retrieve the current configuration in given format(json,set,xml) and save or back it up to a file. I'm using the RPC `get_config()` here, which extracts the configuration in given format but the output of RPC is still in xml. Followed by that couple of lines of code to sanitise the output from device and storing it in a file named after the `hostname` of the Device Under Testing (DUT). Please refer Juniper's official [documentation](https://www.juniper.net/documentation/us/en/software/junos-pyez/junos-pyez-developer/topics/topic-map/junos-pyez-program-configuration-retrieving.html) to know more about retrieving configuration from a device.
+As you can see, there are a lot of keywords this time! As mentioned earlier, I'm using Junos PyEz here and the RPCs it offers to interact with the device. Although I'm not going go over each line of this code, as it is quite straight forward, I would still like to mention couple of them. `cfg_back` is a function to retrieve the current configuration in given format(json,set,xml) and save or back it up to a file. I'm using the RPC `get_config()` here, which extracts the configuration in given format but the output of RPC is still in xml. So a couple of lines of code to sanitise the output from device and store it in a file named after the `hostname` of the Device Under Testing (DUT). Please refer Junos PyEz [documentation](https://www.juniper.net/documentation/us/en/software/junos-pyez/junos-pyez-developer/topics/topic-map/junos-pyez-program-configuration-retrieving.html) to know more about retrieving configuration from a device.
 
-`configuration` function is used to make required configuration changes on the device. Junos PyEz has an utility named `Config` which I will be using here to make the configuration changes. To generate the required configuration, `jinja2` templating is used and the required variables are taken from the Variables file. `template_path` is the location of the jinja2 template and `template_vars` is the dictionary of variables for the jinja2 template which here comes from Variables file.
+`configuration` function is used to make required configuration changes on the device. Junos PyEz has an utility named `Config` which I will be using here to make the configuration changes. To generate the required configuration, `jinja2` templating is used and the required variables are taken from the Variables file. `template_path` is the location of the jinja2 template and `template_vars` is the dictionary of variables for the jinja2 template which here comes from Variables file. More information on the Junos PyEz `Config` utility can be found [here](https://www.juniper.net/documentation/us/en/software/junos-pyez/junos-pyez-developer/topics/concept/junos-pyez-configuration-process-and-data-formats.html)
 
 ```
 set interfaces {{ name }} unit {{ unit }} description "{{ descr }}"
@@ -142,7 +142,7 @@ configure:
 ```
 
 ### Keywords
-`Keywords` file is a collection of Keywords, having a Keywords file seperately rather than defining Keywords in Test Suite itself is quite handy. Same Keywords file can be used for multiple Test Suites and any new Keyword would be added here to make it readily available in all the Test Suites using this Keywords file. And since this is a `robot` file, we can make use various [builtin](https://robotframework.org/robotframework/latest/libraries/BuiltIn.html) keywords available in RF.
+`Keywords` file is a collection of Keywords, having a Keywords file seperately rather than defining Keywords in Test Suite itself is quite handy. Same Keywords file can be used for multiple Test Suites and any new Keyword would be added here to make it readily available in all the Test Suites using this Keywords file. And since this is a `robot` file, we can make use of various [builtin](https://robotframework.org/robotframework/latest/libraries/BuiltIn.html) keywords available in RF.
 
 ```
 *** Keywords ***
@@ -185,7 +185,7 @@ Config Backup
     ${filename}    Cfg Back    ${device}    ${cfg_format}
     log to console    \nBackup Filename: ${filename}
 ```
-Again, quite a few Keywords but if you look closely, they are all similar, so let's go over a couple of them. `Interface Up Count` as documentation states, is used to check and verify the number of UP interfaces. This Keyword expects one argument, `$device` which will be passed from Test Suite file. `${int_up}` is the variable used to hold the output from the Keyword `Intf Up Count`, which is nothing but a function defined in the Resource file, shown below for quick reference.
+Again, quite a few Keywords but if you look closely, they are all similar, so let's go over a couple of them. `Interface Up Count` as documentation states, is used to check and verify the number of UP interfaces. This Keyword expects one argument, `${device}` which will be passed from Test Suite file. `${int_up}` is the variable used to hold the output from the Keyword `Intf Up Count`, which is nothing but a function defined in the Resource file, shown below for quick reference.
 ```
 def intf_up_count(device):
     intf_xml = device.rpc.get_interface_information(terse=True)
@@ -195,7 +195,7 @@ def intf_up_count(device):
 ``` 
 Output from the function/keyword is then passed to the builtin keyword `should be equal` to compare the extracted value with the expected value `${interface_count}`, dictionary named `interface` with the key `up_count` in the Variables file.
 
-Keyword `Configuration Device` is worth taking a look, this one expectes two arguments `${device}` and `${config_vars}`. As mentioned earlier, `${config_vars}` is a dictionary with variables required by jinja2 template to generate the required configuration. This keyword returns 2 values, one if the configuration was successful or not and two the configuration difference between the running and candidate config.
+Keyword `Configuration Device` is worth taking a look as well, this one expectes two arguments `${device}` and `${config_vars}`. As mentioned earlier, `${config_vars}` is a dictionary with variables required by jinja2 template to generate the required configuration. This keyword returns 2 values, one if the configuration was successful or not and two the configuration difference between the running and candidate config.
 
 
 ### Test Suite
@@ -253,7 +253,7 @@ TC - Post checks after the configuration change
 
     Sanity Checks    ${conn}
 ```
-`Sanity Checks` is a keyword which has a bunch of tests to be run as a part of network validation, shown below. `run keyword if` as it says, would be executed when a given condition is met. In this case, we are checking if variable `${configure.save_cfg}` is set to `True`, this values again comes from the Variables file. When True, `Config Backup` keyword is executed which as seen before saves the current configuration to a .txt file.
+`Sanity Checks` is a keyword which has a bunch of tests to be run as a part of network validation, shown below. `run keyword if` as it says, would be executed when a given condition is met. In this case, we are checking if variable `${configure.save_cfg}` is set to `True`, this value again comes from the Variables file. When True, `Config Backup` keyword is executed which as seen before saves the current configuration to a .txt file.
 ```
 Sanity Checks
     [Documentation]    list of checks to run before and after a configuration change
@@ -271,11 +271,11 @@ Sanity Checks
     log to console    \nVerifying System Alarms
     run keyword and continue on failure    System Alarm Check    ${conn}
 ```
-Going past the documentation part, we see 4 keywords in action, with the majority of them using the builtin `run keyword and continue on failure` option. This is a handy option when you're running a bunch of tests and you don't want the test execution to stop when there is a failure. With this option, we can ensure that all the tests are run and failures are captured. 
+Going past the documentation part, we see 4 keywords in action, with the majority of them using the builtin `run keyword and continue on failure` option. This is a handy option when you're running a bunch of tests and you don't want the test execution to stop when there is a failure. With this option, we can ensure that all the tests are run and failures are captured if any. 
 
 ### Test Exection
 
-With all the required bits in place, we go ahead with Test Execution.
+With all the required bits in place, let's go ahead with Test Execution.
 
 ```
 (venv) sohanr@sohanr-mbp Robot_practise % robot configure_tc.robot
@@ -343,26 +343,37 @@ Report:  /Users/sohanr/PycharmProjects/Robot_practise/report.html
 
 We see all our 3 Test Cases were executed with Test Case `TC - Post checks after the configuration change` failing, we will come back to this but before that, let's appreciate the Test Case `TC - Configuring the device` shall we? We see the TC passed, which means the configuration on the device was successful and we also see a config difference being printed out, neat, right?
 
-Now coming to the failure, from the execution we see that TC `TC - Post checks after the configuration change` failed, which means some check in `Sanity Checks` failed. We can also see `0 != 3` is the reason for failure, but it is not clear from here what exactly failed. As I have mentioned in my earlier posts as well, the best thing about using RF for testing, in my opinion, is the logs and reports being available in html, easy to veiw in the browser. Checking the [`report`](/images/report_3.html) generated for our Test Execution, we can see clearly that out of our 3 TCs, 2 Passed and 1 Failed. Now looking at the [`log`](/images/log_3.html), we can see `Test Suite Setup` and `Test Suite Teardown`, explanding the sections, we can see what exactly happened. 
+Now coming to the failure, from the execution we see that TC `TC - Post checks after the configuration change` failed, which means some check in `Sanity Checks` failed. We can also see `0 != 3` is the reason for failure, but it is not clear from here what exactly failed. As I have mentioned in my earlier posts as well, the best thing about using RF for testing, in my opinion, is the logs and reports being available in html, easy to view in a browser. Checking the [`report`](/images/report_3.html) generated for our Test Execution, we can clearly see that out of our 3 TCs, 2 Passed and 1 Failed. Now looking at the [`log`](/images/log_3.html), we can see `Test Suite Setup` and `Test Suite Teardown`, explanding the sections, we can see what exactly happened. 
 
-Let's take a look at couple of sections together, rest you should be explore yourself as it is quite intuitve.
+Let's take a look at couple of sections together, rest you should be able to explore yourself as it is quite intuitve.
+
 ![log1](/images/log3_1.png)
+
 I have highlighted couple of things to make it easy to look, first one is where we see the device object being returned by Junos PyEz. Second one is where we see the variable which has the device object being set as `Suite Variable`, documentation makes it clear!
 
 Now, let's take a look at one of checks being done in TC 1, `TC - Pre checks before the configuration change & config backup`
-![log2](/images/log3_2.png)
-Here we see keyword `Sanity Checks` getting executed first, within which we have several keywords. Moving to `Ospf Neighbor Count` keyword, we can see `Ospf Nbr Count` being called which is defined in our Python file. This keyword or function returns the number of OSPF Neighbors in Full state, which in this is case is 3. Next, we see our verification `Should Be Equal`, checking if the value we defined is equal to the expected value.
 
-Skipping to Test Case `TC - Post checks after the configuration change`, where the failure occured, let's see if we can make sense of the failure.
+![log2](/images/log3_2.png)
+
+Here we see keyword `Sanity Checks` getting executed first, within which we have several keywords. Moving to `Ospf Neighbor Count` keyword, we can see `Ospf Nbr Count` being called which is defined in our Python file. This keyword or function returns the number of OSPF Neighbors in Full state, which in this is case is 3. Next, we see our verification `Should Be Equal`, checking if the value we defined is equal to the extracted value.
+
+Moving to Test Case `TC - Post checks after the configuration change`, where the failure occured, let's see if we can make sense of the failure.
 ![log3](/images/log3_3.png)
 We can see that failure is seen in `Ospf Neighbor Count` keyword, we can see `Ospf Nbr Count` returning 0, which means there are no OSPF neighbors on the device in Full State. Due to this our verification fails as our expected value is 3 but the extracted value is 0! Checking on the device, we can see why.
+
 ![router](/images/router.png)
-We see all our OSPF neighbors in `Exstart` state! Looking at closely the configuration change made.
+
+We see all our OSPF neighbors in `Exstart` state! Looking closely at the configuration changes made.
+
 ![config](/images/config.png)
-One of our changes included changing the MTU value to 1400 for a group, ALL, which is being applied on the all the interfaces! 
 
-This may not have been a particularly difficuit issue to troubleshoot manually but using RF we were able to Test and ensure if our change was successfull or not. Let's say you want to add few more checks to your Test Suite, write Python functions and create a keyword in `Keywords` file, easy! Or you are performing a Softwar Upgrade and want to run some pre and post checks to ensure nothing is broken, you can write a Test Suite like this to automate the checks and the upgrade itself!
+One of our changes included changing the MTU value to 1400 for a group, ALL, which is being applied on the all the interfaces!
 
-I know there was a lot to go through for someone who is starting with RF but I hope I have been clear in explaining everything. As always, if something is not clear please feel free to reach out to me.
+This may not have been a particularly difficuit issue to troubleshoot manually but using RF we were able to Test and ensure if our change was successfull or not. Let's say you want to add few more checks to your Test Suite, just write Python functions and create keywords in `Keywords` file, easy! Or you are performing a Software Upgrade and want to run some pre and post checks to ensure nothing is broken, you can write a Test Suite like this to automate the checks and the upgrade itself!
 
+I know there was a lot to go through in this post, I highly recommend having the [code]() infront of you to help you understand better. I hope I have been clear in explaining everything, if not, please reach out to me with your feedback so that I can do a better job next time.
 
+### Reference
+- Junos PyEz [developer guide](https://www.juniper.net/documentation/us/en/software/junos-pyez/junos-pyez-developer/index.html) is a great place to start if you're new to Junos PyEz
+- RobotFramework official [user guide](https://robotframework.org/robotframework/latest/RobotFrameworkUserGuide.html) is extensive and gives you all the information you need to get started with RF
+- Junos [vLABs](https://jlabs.juniper.net/vlabs/portal/index.page) offers sandboxes with a wide variety of topologies to get a good hands-on experience on Junos.
