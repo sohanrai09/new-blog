@@ -11,8 +11,8 @@ text-left" style="background-image:url(https://images.pexels.com/photos/924824/p
 hasCoverMetaIn"><article class=post id=top><div class="post-content markdown"><div class=main-content-wrap><p>In this blog post I&rsquo;ll be going through a Test Scenario which involves multiple Test Cases with some interesting checks. I will be covering only the new things I&rsquo;ve added for this Test Scenario when compared to my earlier posts, which can be found <a href=https://sohanrai09.github.io/new-blog/>here</a>. Test Suite begins by validating the network status on a particular device, this involves checking protocols such as OSPF, BGP, Interface Status etc. After ensuring network is in steady state, a configuration change is executed and after the change, network is validated again to ensure there has been no network impact.</p><h3 id=variables>Variables</h3><p>I will be using a <code>yaml</code> file to input the variables, this becomes convenient as we can extract data from yaml as lists, dicts etc.</p><pre tabindex=0><code>---
 device:
     ip: &#39;66.129.234.213&#39;
-    user: &#39;jcluser&#39;
-    pwd: &#39;Juniper!1&#39;
+    user: &#39;robot&#39;
+    pwd: &#39;robot123&#39;
     port: &#39;49003&#39;
 interface:
     up_count: 48
