@@ -23,8 +23,8 @@ I will be using a `yaml` file to input the variables, this becomes convenient as
 ---
 device:
     ip: '66.129.234.213'
-    user: 'jcluser'
-    pwd: 'Juniper!1'
+    user: 'robot'
+    pwd: 'robot123'
     port: '49003'
 interface:
     up_count: 48
