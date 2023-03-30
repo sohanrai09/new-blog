@@ -107,6 +107,13 @@ canonifyurls = true
   url = "https://twitter.com/SohanRai23"
 
 
+
+[[menu.links]]
+  weight = 1
+  identifier = "Linkedin"
+  name = "Linkedin"
+  pre = "<i class=\"sidebar-button-icon fab fa-lg fa-linkedin\" aria-hidden=\"true\"></i>"
+  url = "https://www.linkedin.com/in/sohan-rai-01a91488/"
 # -------------
 # Customization
 # -------------
