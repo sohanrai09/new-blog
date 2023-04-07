@@ -210,9 +210,3 @@ Finally, we iterate over the `panel_list` and print the panels into the console 
 
 I know that I skimmed over a lot of details but hopefully by going through one example of each of the elements used in the script, I've given a basic idea of the logic and technique used to construct the dashboard. Please refer to the full code [here](https://github.com/sohanrai09/My_Nornir/tree/main/dashboard) and if you have not used Rich yet, hopefully this is a starter for you to go on and explore more! While I've been working on this, folks from Rich have released another mind blowing library called [Textual](https://textual.textualize.io/) which takes working in the terminal to a whole another level! May be soon I will give that a go and post it here, until then goodbye!
 
-
-### Dashboard in action
-
-<figure class="video_container">
-  <iframe src="https://user-images.githubusercontent.com/89385413/230535408-f8bcdbdd-a425-41cd-a42b-f8b38acb2a1a.mov" frameborder="0" allowfullscreen="true"> </iframe>
-</figure>
