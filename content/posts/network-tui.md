@@ -56,6 +56,8 @@ My inspiration to this section comes from my days at Network Ops where every oth
 ![tui_gen_out2](/images/tui_cmd_out.png)
 
 
-I honestly don't think that this blog post, with the screenshots, doesn't do justice to the TUI App. Please check out the screen recording [here](https://github.com/sohanrai09/net_tui/assets/89385413/38decade-628d-4414-91ac-6b748ee37be4) to truly appreciate the beauty of Textual. This probably is the simplest version of TUIs but hopefully it goes to show what's possible with [Textual](https://textual.textualize.io/). Folks at Textual are adding new and interesting features regularly which gives us users more options to play with to customize our TUI Apps. This project has been the most fun filled projects I have worked on and hopefully I've been able to capture and present that here. Please feel free to reach out to me in case you need any further clarifications, code repository can be found [here](https://github.com/sohanrai09/My_Nornir/tree/main/dashboard).
+I honestly don't think that this blog post, with the screenshots, doesn't do justice to the TUI App. Please check out the screen recording <video src="https://github.com/sohanrai09/net_tui/assets/89385413/38decade-628d-4414-91ac-6b748ee37be4" controls="controls" style="max-width: 730px;">
+</video>
+ to truly appreciate the beauty of Textual. This probably is the simplest version of TUIs but hopefully it goes to show what's possible with [Textual](https://textual.textualize.io/). Folks at Textual are adding new and interesting features regularly which gives us users more options to play with to customize our TUI Apps. This project has been the most fun filled projects I have worked on and hopefully I've been able to capture and present that here. Please feel free to reach out to me in case you need any further clarifications, code repository can be found [here](https://github.com/sohanrai09/My_Nornir/tree/main/dashboard).
 
 Thank you!
