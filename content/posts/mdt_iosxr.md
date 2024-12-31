@@ -13,7 +13,7 @@ keywords:
 - tech
 thumbnailImagePosition: left
 thumbnailImage: "https://images.pexels.com/photos/187041/pexels-photo-187041.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
-coverImage: "https://media.istockphoto.com/id/1488294044/photo/businessman-works-on-laptop-showing-business-analytics-dashboard-with-charts-metrics-and-kpi.jpg?s=1024x1024&w=is&k=20&c=VpSNiVam6Fw3egrJYnP28mEEAXyCjFRjqV_k4PK5S04=
+coverImage: "https://media.istockphoto.com/id/1488294044/photo/businessman-works-on-laptop-showing-business-analytics-dashboard-with-charts-metrics-and-kpi.jpg?s=1024x1024&w=is&k=20&c=VpSNiVam6Fw3egrJYnP28mEEAXyCjFRjqV_k4PK5S04="
 ---
 
 I know I'm very late to the party and probably everbody has already moved to Telemetry, but during the Annual shutdown of Dec '24, I wanted to set this up in my personal lab and play around. I have been testing Model Driven Telemetry(MDT) on Cisco's IOS-XR for a while, so I wanted to share some of my learnings to help someone along their way for setting up telemetry. I will be primarily focusing on Cisco IOS-XR's implementation of MDT, more precisely GRPC DIAL-OUT for now.
