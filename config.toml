@@ -54,7 +54,7 @@ ignoreLogs = ['warning-goldmark-raw-html']
 # ------
 # Author
 # ------
-[author]
+[params.author]
   name = "Sohan Rai"
   bio = "Network Engineer exploring the Network Automation world"
   job = "Network Engineer"
