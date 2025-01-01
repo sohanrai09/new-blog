@@ -39,6 +39,15 @@ canonifyurls = true
     endLevel = 3
     ordered = false
     startLevel = 1
+  [markup.goldmark]
+    [markup.goldmark.extensions]
+      strikethrough = false
+      [markup.goldmark.extensions.extras]
+        [markup.goldmark.extensions.extras.delete]
+          enable = true
+        [markup.goldmark.extensions.extras.subscript]
+          enable = true
+
 
 # ------
 # Author
