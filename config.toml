@@ -30,6 +30,8 @@ canonifyurls = true
   category = "categories"
   archive = "archives"
 
+ignoreLogs = ['warning-goldmark-raw-html']
+
 # ------
 # Markup
 # ------
