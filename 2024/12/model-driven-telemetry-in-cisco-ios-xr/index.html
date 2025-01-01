@@ -1,0 +1,215 @@
+<!doctype html><html lang=en-us><head><script type=application/ld+json>{"@context":"https://schema.org","@type":"BlogPosting","headline":"Model Driven Telemetry in Cisco IOS-XR","image":"https://media.istockphoto.com/id/1488294044/photo/businessman-works-on-laptop-showing-business-analytics-dashboard-with-charts-metrics-and-kpi.jpg?s=1024x1024\u0026w=is\u0026k=20\u0026c=VpSNiVam6Fw3egrJYnP28mEEAXyCjFRjqV_k4PK5S04=","datePublished":"2024-12-31T18:28:20+05:30","dateModified":"2024-12-31T18:28:20+05:30","author":{"@type":"Person","name":null},"mainEntityOfPage":{"@type":"WebPage","@id":"https:\/\/sohanrai09.github.io\/new-blog\/2024\/12\/model-driven-telemetry-in-cisco-ios-xr\/"},"publisher":{"@type":"Organization","name":"Home"},"description":"I know I\u0026rsquo;m very late to the party and probably everbody has already moved to Telemetry, but during the Annual shutdown of Dec \u0026lsquo;24, I wanted to set this up in my personal lab and play around. I have been testing Model Driven Telemetry(MDT) on Cisco\u0026rsquo;s IOS-XR for a while, so I wanted to share some of my learnings to help someone along their way for setting up telemetry. I will be primarily focusing on Cisco IOS-XR\u0026rsquo;s implementation of MDT, more precisely GRPC DIAL-OUT for now.\n","keywords":[]}</script><meta charset=UTF-8><meta name=viewport content="width=device-width,initial-scale=1"><meta http-equiv=X-UA-Compatible content="IE=edge"><meta name=generator content="Hugo 0.140.2 with theme Tranquilpeak 0.5.3-BETA"><meta name=author content><meta name=keywords content><meta name=description content="I know I&rsquo;m very late to the party and probably everbody has already moved to Telemetry, but during the Annual shutdown of Dec &lsquo;24, I wanted to set this up in my personal lab and play around. I have been testing Model Driven Telemetry(MDT) on Cisco&rsquo;s IOS-XR for a while, so I wanted to share some of my learnings to help someone along their way for setting up telemetry. I will be primarily focusing on Cisco IOS-XR&rsquo;s implementation of MDT, more precisely GRPC DIAL-OUT for now."><meta property="og:description" content="I know I&rsquo;m very late to the party and probably everbody has already moved to Telemetry, but during the Annual shutdown of Dec &lsquo;24, I wanted to set this up in my personal lab and play around. I have been testing Model Driven Telemetry(MDT) on Cisco&rsquo;s IOS-XR for a while, so I wanted to share some of my learnings to help someone along their way for setting up telemetry. I will be primarily focusing on Cisco IOS-XR&rsquo;s implementation of MDT, more precisely GRPC DIAL-OUT for now."><meta property="og:type" content="article"><meta property="og:title" content="Model Driven Telemetry in Cisco IOS-XR"><meta name=twitter:title content="Model Driven Telemetry in Cisco IOS-XR"><meta property="og:url" content="https://sohanrai09.github.io/new-blog/2024/12/model-driven-telemetry-in-cisco-ios-xr/"><meta property="twitter:url" content="https://sohanrai09.github.io/new-blog/2024/12/model-driven-telemetry-in-cisco-ios-xr/"><meta property="og:site_name" content="Home"><meta property="og:description" content="I know I&rsquo;m very late to the party and probably everbody has already moved to Telemetry, but during the Annual shutdown of Dec &lsquo;24, I wanted to set this up in my personal lab and play around. I have been testing Model Driven Telemetry(MDT) on Cisco&rsquo;s IOS-XR for a while, so I wanted to share some of my learnings to help someone along their way for setting up telemetry. I will be primarily focusing on Cisco IOS-XR&rsquo;s implementation of MDT, more precisely GRPC DIAL-OUT for now."><meta name=twitter:description content="I know I&rsquo;m very late to the party and probably everbody has already moved to Telemetry, but during the Annual shutdown of Dec &lsquo;24, I wanted to set this up in my personal lab and play around. I have been testing Model Driven Telemetry(MDT) on Cisco&rsquo;s IOS-XR for a while, so I wanted to share some of my learnings to help someone along their way for setting up telemetry. I will be primarily focusing on Cisco IOS-XR&rsquo;s implementation of MDT, more precisely GRPC DIAL-OUT for now."><meta property="og:locale" content="en-us"><meta property="article:published_time" content="2024-12-31T18:28:20"><meta property="article:modified_time" content="2024-12-31T18:28:20"><meta name=twitter:card content="summary"><meta property="og:image" content="https://media.istockphoto.com/id/1488294044/photo/businessman-works-on-laptop-showing-business-analytics-dashboard-with-charts-metrics-and-kpi.jpg?s=1024x1024&amp;w=is&amp;k=20&amp;c=VpSNiVam6Fw3egrJYnP28mEEAXyCjFRjqV_k4PK5S04="><meta property="twitter:image" content="https://media.istockphoto.com/id/1488294044/photo/businessman-works-on-laptop-showing-business-analytics-dashboard-with-charts-metrics-and-kpi.jpg?s=1024x1024&amp;w=is&amp;k=20&amp;c=VpSNiVam6Fw3egrJYnP28mEEAXyCjFRjqV_k4PK5S04="><meta property="og:image" content="https://images.pexels.com/photos/187041/pexels-photo-187041.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=1260&amp;h=750&amp;dpr=2"><meta property="twitter:image" content="https://images.pexels.com/photos/187041/pexels-photo-187041.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=1260&amp;h=750&amp;dpr=2"><title>Model Driven Telemetry in Cisco IOS-XR</title>
+<link rel=icon href=https://sohanrai09.github.io/new-blog/favicon.png><link rel=canonical href=https://sohanrai09.github.io/new-blog/2024/12/model-driven-telemetry-in-cisco-ios-xr/><link rel=stylesheet href=https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css integrity="sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/gI1w==" crossorigin=anonymous referrerpolicy=no-referrer><link rel=stylesheet href=https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.css integrity="sha512-H9jrZiiopUdsLpg94A333EfumgUBpO9MdbxStdeITo+KEIMaNfHNvwyjjDJb+ERPaRS6DpyRlKbvPUasNItRyw==" crossorigin=anonymous referrerpolicy=no-referrer><link rel=stylesheet href=https://sohanrai09.github.io/new-blog/css/style-h6ccsoet3mzkbb0wngshlfbaweimexgqcxj0h5hu4h82olsdzz6wmqdkajm.min.css></head><body><div id=blog><header id=header data-behavior=4><i id=btn-open-sidebar class="fa fa-lg fa-bars"></i><div class=header-title><a class=header-title-link href=https://sohanrai09.github.io/new-blog/ aria-label="Go to homepage">Home</a></div><a class=header-right-picture href=https://sohanrai09.github.io/new-blog/#about aria-label="Open the link: /#about"></a></header><nav id=sidebar data-behavior=4><div class=sidebar-container><ul class=sidebar-buttons><li class=sidebar-button><a class=sidebar-button-link href=https://sohanrai09.github.io/new-blog/ title=Home><i class="sidebar-button-icon fas fa-lg fa-home" aria-hidden=true></i>
+<span class=sidebar-button-desc>Home</span></a></li><li class=sidebar-button><a class=sidebar-button-link href=https://sohanrai09.github.io/new-blog/categories title=Categories><i class="sidebar-button-icon fas fa-lg fa-bookmark" aria-hidden=true></i>
+<span class=sidebar-button-desc>Categories</span></a></li><li class=sidebar-button><a class=sidebar-button-link href=https://sohanrai09.github.io/new-blog/tags title=Tags><i class="sidebar-button-icon fas fa-lg fa-tags" aria-hidden=true></i>
+<span class=sidebar-button-desc>Tags</span></a></li><li class=sidebar-button><a class=sidebar-button-link href=https://sohanrai09.github.io/new-blog/#about title=About><i class="sidebar-button-icon fas fa-lg fa-question" aria-hidden=true></i>
+<span class=sidebar-button-desc>About</span></a></li></ul><ul class=sidebar-buttons><li class=sidebar-button><a class=sidebar-button-link href=https://github.com/sohanrai09 target=_blank rel=noopener title=GitHub><i class="sidebar-button-icon fab fa-lg fa-github" aria-hidden=true></i>
+<span class=sidebar-button-desc>GitHub</span></a></li><li class=sidebar-button><a class=sidebar-button-link href=https://www.linkedin.com/in/sohan-rai-01a91488/ target=_blank rel=noopener title=Linkedin><i class="sidebar-button-icon fab fa-lg fa-linkedin" aria-hidden=true></i>
+<span class=sidebar-button-desc>Linkedin</span></a></li><li class=sidebar-button><a class=sidebar-button-link href=https://twitter.com/SohanRai23 target=_blank rel=noopener title=Twitter><i class="sidebar-button-icon fab fa-lg fa-twitter" aria-hidden=true></i>
+<span class=sidebar-button-desc>Twitter</span></a></li></ul><ul class=sidebar-buttons></ul></div></nav><div class="post-header-cover
+text-left" style="background-image:url(https://media.istockphoto.com/id/1488294044/photo/businessman-works-on-laptop-showing-business-analytics-dashboard-with-charts-metrics-and-kpi.jpg?s=1024x1024&amp;w=is&amp;k=20&amp;c=VpSNiVam6Fw3egrJYnP28mEEAXyCjFRjqV_k4PK5S04=)" data-behavior=4><div class="post-header main-content-wrap text-left"><h1 class=post-title>Model Driven Telemetry in Cisco IOS-XR</h1><div class="postShorten-meta post-meta"><time datetime=2024-12-31T18:28:20+05:30>December 31, 2024</time></div></div></div><div id=main data-behavior=4 class="hasCover
+hasCoverMetaIn"><article class=post id=top><div class="post-content markdown"><div class=main-content-wrap><p>I know I&rsquo;m very late to the party and probably everbody has already moved to Telemetry, but during the Annual shutdown of Dec &lsquo;24, I wanted to set this up in my personal lab and play around. I have been testing Model Driven Telemetry(MDT) on Cisco&rsquo;s IOS-XR for a while, so I wanted to share some of my learnings to help someone along their way for setting up telemetry. I will be primarily focusing on Cisco IOS-XR&rsquo;s implementation of MDT, more precisely GRPC DIAL-OUT for now.</p><p>There are already tons of content on setting up the TIG(Telegraf, InfluxDB, Grafana) stack, I just wanted to mention here the Telegraf configuration for a quick reference.</p><pre tabindex=0><code># telegraf.conf
+# Global Agent Configuration
+[agent]
+hostname = &#34;telemetry-container&#34;
+flush_interval = &#34;15s&#34;
+interval = &#34;15s&#34;
+
+# gRPC Dial-Out Telemetry Listener
+[[inputs.cisco_telemetry_mdt]]
+transport = &#34;grpc&#34;
+service_address = &#34;:57000&#34;
+
+# Output Plugin InfluxDB
+[[outputs.influxdb_v2]]
+bucket = &#34;mdtlab&#34;
+urls = [&#34;http://127.0.0.1:8086&#34;]
+token = &#34;enter the token here&#34;
+organization = &#34;lab&#34;
+</code></pre><h3 id=configuration-on-ios-xr>Configuration on IOS-XR</h3><p>As mentioned earlier, I wil be using <code>grpc dial-out</code> option, and the required configuration on Cisco IOS-XR for this:</p><pre tabindex=0><code>!
+grpc
+ no-tls
+!
+telemetry model-driven
+ destination-group DGroup2
+  address-family ipv4 192.168.100.1 port 57000
+   encoding self-describing-gpb
+   protocol grpc no-tls
+  !
+ !
+ sensor-group ISIS
+  sensor-path Cisco-IOS-XR-clns-isis-oper:isis/instances/instance/summary
+  sensor-path Cisco-IOS-XR-ip-rib-ipv4-oper:rib/vrfs/vrf/afs/af/safs/saf/ip-rib-route-table-names/ip-rib-route-table-name/protocol/isis/as/information
+ !
+ sensor-group MPLSTE
+  sensor-path Cisco-IOS-XR-mpls-te-oper:mpls-te/tunnels/summary
+ !
+ sensor-group SGroup2
+  sensor-path Cisco-IOS-XR-wdsysmon-fd-oper:system-monitoring/cpu-utilization
+  sensor-path Cisco-IOS-XR-nto-misc-oper:memory-summary/nodes/node/summary
+ !
+ sensor-group ipv4_bgp
+  sensor-path Cisco-IOS-XR-ipv4-bgp-oper:bgp/instances/instance/instance-active/vrfs/vrf/process-info/global
+  sensor-path Cisco-IOS-XR-ipv4-bgp-oper:bgp/instances/instance/instance-active/default-vrf/process-info/global
+  sensor-path Cisco-IOS-XR-ip-rib-ipv4-oper:rib/vrfs/vrf/afs/af/safs/saf/ip-rib-route-table-names/ip-rib-route-table-name/protocol/bgp/as
+ !
+ sensor-group rib-ipv4
+  sensor-path Cisco-IOS-XR-ip-rib-ipv4-oper:rib/rib-table-ids/rib-table-id/information
+  sensor-path Cisco-IOS-XR-ip-rib-ipv4-oper:rib/vrfs/vrf/afs/af/safs/saf/ip-rib-route-table-names/ip-rib-route-table-name/routes/route
+ !
+ sensor-group INT_STATS
+  sensor-path Cisco-IOS-XR-infra-statsd-oper:infra-statistics/interfaces/interface/cache/data-rate/input-data-rate
+  sensor-path Cisco-IOS-XR-infra-statsd-oper:infra-statistics/interfaces/interface/cache/data-rate/output-data-rate
+ !
+ subscription ISIS
+  sensor-group-id ISIS sample-interval 30000
+  destination-id DGroup2
+ !
+  subscription ISIS
+  sensor-group-id ISIS sample-interval 30000
+  destination-id DGroup2
+ !
+ subscription Sub2
+  sensor-group-id SGroup2 sample-interval 30000
+  destination-id DGroup2
+ !
+ subscription MPLSTE
+  sensor-group-id MPLSTE sample-interval 60000
+  destination-id DGroup2
+ !
+ subscription ipv4_bgp
+  sensor-group-id ipv4_bgp sample-interval 30000
+  destination-id DGroup2
+ !        
+ subscription rib-ipv4
+  sensor-group-id rib-ipv4 sample-interval 30000
+  destination-id DGroup2
+ !
+ subscription INT_STATS
+  sensor-group-id INT_STATS sample-interval 30000
+  destination-id DGroup2
+ !
+!
+</code></pre><p>I have setup a bunch of things around system parameters, control plane and data plane. Please refer to <a href=https://cfnng.cisco.com/ios-xr/yang-explorer/view-data-model>Cisco Feature Navigator</a> to get the YANG models as per your requirement.</p><h3 id=checks-on-ios-xr>Checks on IOS-XR</h3><p>Looking at one particular subscription</p><p>Querying the InfluxDB</p><p>Equivalent query for Grafana in Flex Language Syntax</p><pre tabindex=0><code>from(bucket: &#34;mdtlab&#34;)
+  |&gt; range(start: v.timeRangeStart, stop: v.timeRangeStop)
+  |&gt; filter(fn: (r) =&gt; r[&#34;_measurement&#34;] == &#34;Cisco-IOS-XR-nto-misc-oper:memory-summary/nodes/node/summary&#34;)
+  |&gt; filter(fn: (r) =&gt; r[&#34;_field&#34;] == &#34;free_physical_memory&#34;)
+  |&gt; aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)
+  |&gt; yield(name: &#34;mean&#34;)
+</code></pre><p>Personally, I found the Flex Language syntax a bit tricky to write from scratch, thankfully, we can use <code>Query Builder</code> option in InfluxDB GUI to get the appropriate Flex Language query for your needs.</p><p>Finally, it all comes together in Grafana dashboard.
+<img src=https://sohanrai09.github.io/new-blog/images/grafana_1.png alt=Grafana></p><h3 id=troubleshooting>Troubleshooting</h3><p>It&rsquo;s all well and good when things work fine but when they don&rsquo;t, we need to know what logs/traces to check to narrow down the issue.</p><p>I have simulated a failure scenario, due to which none of the sessions are <code>Active</code>, all are stuck in <code>Connecting</code> state.</p><p>Checking one particular Subscription, there are no active collection groups.</p><p>Checking the telemetry model-driven traces, we can see that TCP Connection is failing to Establish.</p><pre tabindex=0><code>RP/0/RP0/CPU0:PE1#show telemetry model-driven trace all reverse 
+Tue Dec 31 07:59:49.160 UTC
+24118 wrapping entries (26496 possible, 24704 allocated, 0 filtered, 351346 total)
+Dec 31 07:59:44.446 m2m/mdt/go-info 0/RP0/CPU0 t31604  5469 [mdt_go_trace_info]: mdtDialer:279 1: Reuse dialerChan 0xc000010218 for default
+Dec 31 07:59:44.446 m2m/mdt/go-info 0/RP0/CPU0 t31604  5468 [mdt_go_trace_info]: getAddDialerChanWithLock:153 1:Found existing dialer for namespace default
+Dec 31 07:59:44.446 m2m/mdt/go-info 0/RP0/CPU0 t31604  5467 [mdt_go_trace_info]: mdtDialer:269 1: namespace default, args 192.168.100.1:57000
+Dec 31 07:59:44.445 m2m/mdt/go-info 0/RP0/CPU0 t31604  5466 [mdt_go_trace_info]: mdtConnEstablish:268 dial: target 192.168.100.1:57000
+Dec 31 07:59:44.445 m2m/mdt/go-info 0/RP0/CPU0 t31604  5465 [mdt_go_trace_info]: mdtConnEstablish:229 1: req 503, TLS is false, cert , host , compression .
+Dec 31 07:59:44.445 m2m/mdt/go-info 0/RP0/CPU0 t31604  5464 [mdt_go_trace_info]: mdtConnEstablish:229 1: Dialing out to 192.168.100.1:57000, req 503
+Dec 31 07:59:44.445 m2m/mdt/go-info 0/RP0/CPU0 t31604  5463 [mdt_go_trace_info]: dialReqAgent:489 1: req 501, entries when dequeue is 3
+Dec 31 07:59:44.445 m2m/mdt/subdb 0/RP0/CPU0 t31604  5462 [mdt_conn_grpc_establish_done]: Failed to establish conn 0
+Dec 31 07:59:44.445 m2m/mdt/subdb 0/RP0/CPU0 t31604  5461 [mdt_conn_grpc_establish_done]: Got grpc establish callback 501, chan 18446744073709551615, status 1
+Dec 31 07:59:44.445 m2m/mdt/go-info 0/RP0/CPU0 t31604  5460 [mdt_go_trace_error]: mdtConnEstablish:295 1: grpc service call failed, ReqId 501, 192.168.100.1:57000, rpc error: code =
+ Unavailable desc = connection error: desc = &#34;transport: error while dialing: dial tcp 192.168.100.1:57000: i/o timeout&#34;
+</code></pre><p>grpc traces also reveal the same.</p><pre tabindex=0><code>RP/0/RP0/CPU0:PE1#show grpc trace all reverse | i 07:59:44
+Tue Dec 31 08:37:28.700 UTC
+Dec 31 07:59:44.446 ems/grpc 0/RP0/CPU0 t31542 EMS-GRPC: [core] Channel Connectivity change to CONNECTING
+Dec 31 07:59:44.446 ems/grpc 0/RP0/CPU0 t31542 EMS-GRPC: [core] pickfirstBalancer: UpdateSubConnState: 0xc00001e8e0, {CONNECTING &lt;nil&gt;}
+Dec 31 07:59:44.446 ems/grpc 0/RP0/CPU0 t31604 EMS-GRPC: [core] Subchannel picks a new address &#34;192.168.100.1:57000&#34; to connect
+Dec 31 07:59:44.446 ems/grpc 0/RP0/CPU0 t31604 EMS-GRPC: [core] Subchannel Connectivity change to CONNECTING
+Dec 31 07:59:44.446 ems/grpc 0/RP0/CPU0 t31604 EMS-GRPC: [core] blockingPicker: the picked transport is not ready, loop back to repick
+Dec 31 07:59:44.446 ems/grpc 0/RP0/CPU0 t31604 EMS-GRPC: [core] Channel switches to new LB policy &#34;pick_first&#34;
+Dec 31 07:59:44.446 ems/grpc 0/RP0/CPU0 t31604 EMS-GRPC: [core] ClientConn switching balancer to &#34;pick_first&#34;
+Dec 31 07:59:44.446 ems/grpc 0/RP0/CPU0 t31604 EMS-GRPC: [core] ccResolverWrapper: sending update to cc: {[{192.168.100.1:57000  &lt;nil&gt; 0 &lt;nil&gt;}] &lt;nil&gt; &lt;nil&gt;}
+Dec 31 07:59:44.445 ems/grpc 0/RP0/CPU0 t31604 EMS-GRPC: [core] scheme &#34;&#34; not registered, fallback to default scheme
+Dec 31 07:59:44.445 ems/grpc 0/RP0/CPU0 t31604 EMS-GRPC: [core] parsed scheme: &#34;&#34;
+Dec 31 07:59:44.445 ems/grpc 0/RP0/CPU0 t31604 EMS-GRPC: [core] Subchannel Connectivity change to SHUTDOWN
+Dec 31 07:59:44.445 ems/grpc 0/RP0/CPU0 t31604 EMS-GRPC: [core] Channel Connectivity change to SHUTDOWN
+Dec 31 07:59:44.445 ems/grpc 0/RP0/CPU0 t31604 EMS-GRPC: [core] Channel Connectivity change to TRANSIENT_FAILURE
+Dec 31 07:59:44.445 ems/grpc 0/RP0/CPU0 t31604 EMS-GRPC: [core] pickfirstBalancer: UpdateSubConnState: 0xc000019fb0, {TRANSIENT_FAILURE connection error: desc = &#34;transport: error wh
+ile dialing: dial tcp 192.168.100.1:57000: i/o timeout&#34;}
+Dec 31 07:59:44.445 ems/grpc 0/RP0/CPU0 t31604 EMS-GRPC: [core] Subchannel Connectivity change to TRANSIENT_FAILURE
+Dec 31 07:59:44.445 ems/grpc 0/RP0/CPU0 t31604 EMS-GRPC: [core] grpc: addrConn.createTransport failed to connect to {192.168.100.1:57000 192.168.100.1:57000 &lt;nil&gt; 0 &lt;nil&gt;}. Err: con
+nection error: desc = &#34;transport: error while dialing: dial tcp 192.168.100.1:57000: i/o timeout&#34;
+RP/0/RP0/CPU0:PE1#
+</code></pre><p>We can also check the TCP connection state.</p><pre tabindex=0><code>RP/0/RP0/CPU0:PE1#bash netstat -an
+Tue Dec 31 09:27:56.895 UTC
+Active Internet connections (servers and established)
+Proto Recv-Q Send-Q Local Address           Foreign Address         State      
+tcp        0      1 211.0.0.9:61390         192.168.100.1:57000     SYN_SENT   
+tcp6       0      0 :::57400                :::*                    LISTEN     
+Active UNIX domain sockets (servers and established)
+Proto RefCnt Flags       Type       State         I-Node   Path
+unix  2      [ ACC ]     STREAM     LISTENING     14646215 /var/lib/malloc_stat/9580
+unix  2      [ ]         DGRAM                    14646222 
+
+RP/0/RP0/CPU0:PE1#
+</code></pre><p>In this particular case, server didn&rsquo;t have a route to Router&rsquo;s Loopback, as soon I added the route, Connections came up.</p><pre tabindex=0><code>RP/0/RP0/CPU0:PE1#show grpc trace all reverse 
+Tue Dec 31 08:50:05.358 UTC
+83163 wrapping entries (549888 possible, 328448 allocated, 0 filtered, 149016 total)
+Dec 31 08:48:04.729 ems/grpc 0/RP0/CPU0 t31542 EMS-GRPC: [core] Channel Connectivity change to READY
+Dec 31 08:48:04.729 ems/grpc 0/RP0/CPU0 t31542 EMS-GRPC: [core] pickfirstBalancer: UpdateSubConnState: 0xc0001646c0, {READY &lt;nil&gt;}
+Dec 31 08:48:04.729 ems/grpc 0/RP0/CPU0 t31542 EMS-GRPC: [core] Subchannel Connectivity change to READY
+Dec 31 08:48:04.709 ems/grpc 0/RP0/CPU0 t31542 EMS-GRPC: [core] Channel Connectivity change to CONNECTING
+Dec 31 08:48:04.709 ems/grpc 0/RP0/CPU0 t31542 EMS-GRPC: [core] pickfirstBalancer: UpdateSubConnState: 0xc0001646c0, {CONNECTING &lt;nil&gt;}
+Dec 31 08:48:04.708 ems/grpc 0/RP0/CPU0 t31659 EMS-GRPC: [core] Subchannel picks a new address &#34;192.168.100.1:57000&#34; to connect
+Dec 31 08:48:04.708 ems/grpc 0/RP0/CPU0 t31659 EMS-GRPC: [core] Subchannel Connectivity change to CONNECTING
+Dec 31 08:48:04.708 ems/grpc 0/RP0/CPU0 t31659 EMS-GRPC: [core] blockingPicker: the picked transport is not ready, loop back to repick
+Dec 31 08:48:04.708 ems/grpc 0/RP0/CPU0 t31659 EMS-GRPC: [core] Channel switches to new LB policy &#34;pick_first&#34;
+Dec 31 08:48:04.708 ems/grpc 0/RP0/CPU0 t31659 EMS-GRPC: [core] ClientConn switching balancer to &#34;pick_first&#34;
+Dec 31 08:48:04.708 ems/grpc 0/RP0/CPU0 t31659 EMS-GRPC: [core] ccResolverWrapper: sending update to cc: {[{192.168.100.1:57000  &lt;nil&gt; 0 &lt;nil&gt;}] &lt;nil&gt; &lt;nil&gt;}
+
+RP/0/RP0/CPU0:PE1#bash netstat -an
+Tue Dec 31 08:51:09.756 UTC
+Active Internet connections (servers and established)
+Proto Recv-Q Send-Q Local Address           Foreign Address         State      
+tcp        0      0 211.0.0.9:60665         192.168.100.1:57000     ESTABLISHED
+tcp        0      0 211.0.0.9:60658         192.168.100.1:57000     ESTABLISHED
+tcp        0      0 211.0.0.9:60659         192.168.100.1:57000     ESTABLISHED
+tcp        0      0 211.0.0.9:60668         192.168.100.1:57000     ESTABLISHED
+tcp        0      0 211.0.0.9:60661         192.168.100.1:57000     ESTABLISHED
+tcp        0      0 211.0.0.9:60660         192.168.100.1:57000     ESTABLISHED
+tcp6       0      0 :::57400                :::*                    LISTEN     
+Active UNIX domain sockets (servers and established)
+Proto RefCnt Flags       Type       State         I-Node   Path
+unix  2      [ ACC ]     STREAM     LISTENING     13474827 /var/lib/malloc_stat/2458
+unix  2      [ ]         DGRAM                    13474834 
+
+RP/0/RP0/CPU0:PE1#
+</code></pre><h3 id=validating-yang-data-model-using-in-built-python-script>Validating YANG Data model using in-built Python script</h3><p>IOS-XR comes with a handy in-built python script, <code>mdt_exec.py</code> which can be invoked to quickly check the YANG model for any particular path.</p><pre tabindex=0><code>RP/0/RP0/CPU0:PE1#run mdt_exec.py -s Cisco-IOS-XR-clns-isis-oper:isis/instance$
+Tue Dec 31 08:56:16.248 UTC
+{
+  &#34;encoding_path&#34;: &#34;Cisco-IOS-XR-clns-isis-oper:isis/instances/instance/summary&#34;, 
+  &#34;subscription_id_str&#34;: &#34;app_TEST_200000001&#34;, 
+  &#34;collection_start_time&#34;: &#34;1735635376550&#34;, 
+  &#34;msg_timestamp&#34;: &#34;1735635376562&#34;, 
+  &#34;collection_end_time&#34;: &#34;1735635376562&#34;, 
+  &#34;node_id_str&#34;: &#34;PE1&#34;, 
+  &#34;data_json&#34;: [
+    {
+      &#34;keys&#34;: [
+        {
+          &#34;instance-name&#34;: &#34;1&#34;
+        }
+      ], 
+      &#34;timestamp&#34;: &#34;1735635376561&#34;, 
+      &#34;content&#34;: {
+        &#34;l2-adjacencies&#34;: 3, 
+        &#34;l1-routers&#34;: 0, 
+        &#34;l1ls-ps&#34;: 0, 
+        &#34;l2ls-ps&#34;: 5, 
+        &#34;l2-routers&#34;: 5, 
+        &#34;running-levels&#34;: &#34;isis-levels-2&#34;, 
+        &#34;l1-adjacencies&#34;: 0, 
+        &#34;l1l2-adjacencies&#34;: 0
+      }
+    }
+  ], 
+  &#34;collection_id&#34;: &#34;185&#34;
+},
+^CDone
+</code></pre><p>This was meerly scratching the surface but it was great fun setting everything up and to finally see those shinny graphs. Cisco has some very good documentation on this subject matter, please check them out if you&rsquo;re thinking of setting this up at home or at work.</p><h3 id=reference>Reference</h3><p><a href=https://xrdocs.io/telemetry/>https://xrdocs.io/telemetry/</a></p><p><a href=https://xrdocs.io/telemetry/tutorials/>https://xrdocs.io/telemetry/tutorials/</a></p></div></div><div id=post-footer class="post-footer main-content-wrap"><div class=post-actions-wrap><nav><ul class="post-actions post-action-nav"><li class=post-action><a class="post-action-btn btn btn--disabled"><i class="fa fa-angle-left"></i>
+<span class="hide-xs hide-sm text-small icon-ml">NEXT</span></a></li><li class=post-action><a class="post-action-btn btn btn--disabled"><span class="hide-xs hide-sm text-small icon-mr">PREVIOUS</span>
+<i class="fa fa-angle-right"></i></a></li></ul></nav><ul class="post-actions post-action-share"><li class="post-action hide-lg hide-md hide-sm"><a class="post-action-btn btn btn--default btn-open-shareoptions" href=#btn-open-shareoptions aria-label="Share this post"><i class="fa fa-share-alt" aria-hidden=true></i></a></li><li class="post-action hide-xs"><a class="post-action-btn btn btn--default" target=new href="https://www.facebook.com/sharer/sharer.php?u=https://sohanrai09.github.io/new-blog/2024/12/model-driven-telemetry-in-cisco-ios-xr/" title="Share on Facebook" aria-label="Share on Facebook"><i class="fab fa-facebook-square" aria-hidden=true></i></a></li><li class="post-action hide-xs"><a class="post-action-btn btn btn--default" target=new href="https://twitter.com/intent/tweet?text=https://sohanrai09.github.io/new-blog/2024/12/model-driven-telemetry-in-cisco-ios-xr/" title="Share on Twitter" aria-label="Share on Twitter"><i class="fab fa-twitter" aria-hidden=true></i></a></li><li class="post-action hide-xs"><a class="post-action-btn btn btn--default" target=new href="https://www.linkedin.com/sharing/share-offsite/?url=https://sohanrai09.github.io/new-blog/2024/12/model-driven-telemetry-in-cisco-ios-xr/" title="Share on Linkedin" aria-label="Share on Linkedin"><i class="fab fa-linkedin" aria-hidden=true></i></a></li><li class=post-action><a class="post-action-btn btn btn--default" href=#top aria-label="Back to top"><i class="fa fa-arrow-up" aria-hidden=true></i></a></li></ul></div></div></article><footer id=footer class=main-content-wrap><span class=copyrights>&copy; 2025 Home. All Rights Reserved</span></footer></div><div id=bottom-bar class=post-bottom-bar data-behavior=4><div class=post-actions-wrap><nav><ul class="post-actions post-action-nav"><li class=post-action><a class="post-action-btn btn btn--disabled"><i class="fa fa-angle-left"></i>
+<span class="hide-xs hide-sm text-small icon-ml">NEXT</span></a></li><li class=post-action><a class="post-action-btn btn btn--disabled"><span class="hide-xs hide-sm text-small icon-mr">PREVIOUS</span>
+<i class="fa fa-angle-right"></i></a></li></ul></nav><ul class="post-actions post-action-share"><li class="post-action hide-lg hide-md hide-sm"><a class="post-action-btn btn btn--default btn-open-shareoptions" href=#btn-open-shareoptions aria-label="Share this post"><i class="fa fa-share-alt" aria-hidden=true></i></a></li><li class="post-action hide-xs"><a class="post-action-btn btn btn--default" target=new href="https://www.facebook.com/sharer/sharer.php?u=https://sohanrai09.github.io/new-blog/2024/12/model-driven-telemetry-in-cisco-ios-xr/" title="Share on Facebook" aria-label="Share on Facebook"><i class="fab fa-facebook-square" aria-hidden=true></i></a></li><li class="post-action hide-xs"><a class="post-action-btn btn btn--default" target=new href="https://twitter.com/intent/tweet?text=https://sohanrai09.github.io/new-blog/2024/12/model-driven-telemetry-in-cisco-ios-xr/" title="Share on Twitter" aria-label="Share on Twitter"><i class="fab fa-twitter" aria-hidden=true></i></a></li><li class="post-action hide-xs"><a class="post-action-btn btn btn--default" target=new href="https://www.linkedin.com/sharing/share-offsite/?url=https://sohanrai09.github.io/new-blog/2024/12/model-driven-telemetry-in-cisco-ios-xr/" title="Share on Linkedin" aria-label="Share on Linkedin"><i class="fab fa-linkedin" aria-hidden=true></i></a></li><li class=post-action><a class="post-action-btn btn btn--default" href=#top aria-label="Back to top"><i class="fa fa-arrow-up" aria-hidden=true></i></a></li></ul></div></div><div id=share-options-bar class=share-options-bar data-behavior=4><i id=btn-close-shareoptions class="fa fa-times"></i><ul class=share-options><li class=share-option><a class=share-option-btn target=new href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fsohanrai09.github.io%2Fnew-blog%2F2024%2F12%2Fmodel-driven-telemetry-in-cisco-ios-xr%2F" aria-label="Share on Facebook"><i class="fab fa-facebook-square" aria-hidden=true></i><span>Share on Facebook</span></a></li><li class=share-option><a class=share-option-btn target=new href="https://twitter.com/intent/tweet?text=https%3A%2F%2Fsohanrai09.github.io%2Fnew-blog%2F2024%2F12%2Fmodel-driven-telemetry-in-cisco-ios-xr%2F" aria-label="Share on Twitter"><i class="fab fa-twitter" aria-hidden=true></i><span>Share on Twitter</span></a></li><li class=share-option><a class=share-option-btn target=new href="https://www.linkedin.com/sharing/share-offsite/?url=https%3A%2F%2Fsohanrai09.github.io%2Fnew-blog%2F2024%2F12%2Fmodel-driven-telemetry-in-cisco-ios-xr%2F" aria-label="Share on Linkedin"><i class="fab fa-linkedin" aria-hidden=true></i><span>Share on Linkedin</span></a></li></ul></div><div id=share-options-mask class=share-options-mask></div></div><div id=about><div id=about-card><div id=about-btn-close><i class="fa fa-times"></i></div><h4 id=about-card-name></h4></div></div><div id=cover style=background-image:url(https://sohanrai09.github.io/new-blog/images/cover_img.jpg)></div><script src=https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" crossorigin=anonymous referrerpolicy=no-referrer></script><script src=https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.1.0/highlight.min.js integrity="sha512-z+/WWfyD5tccCukM4VvONpEtLmbAm5LDu7eKiyMQJ9m7OfPEDL7gENyDRL3Yfe8XAuGsS2fS4xSMnl6d30kqGQ==" crossorigin=anonymous referrerpolicy=no-referrer></script><script src=https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.js integrity="sha512-uURl+ZXMBrF4AwGaWmEetzrd+J5/8NRkWAvJx5sbPSSuOb0bZLqf+tOzniObO00BjHa/dD7gub9oCGMLPQHtQA==" crossorigin=anonymous referrerpolicy=no-referrer></script><script src=https://sohanrai09.github.io/js/script-yqzy9wdlzix4lbbwdnzvwx3egsne77earqmn73v9uno8aupuph8wfguccut.min.js></script><script async crossorigin=anonymous defer integrity="sha512-gE8KAQyFIzV1C9+GZ8TKJHZS2s+n7EjNtC+IMRn1l5+WYJTHOODUM6JSjZhFhqXmc7bG8Av6XXpckA4tYhflnw==" src=https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.1.0/languages/apache.min.js></script><script async crossorigin=anonymous defer integrity="sha512-EWROca+bote+7Oaaar1F6y74iZj1r1F9rm/ly7o+/FwJopbBaWtsFDmaKoZDd3QiGU2pGacBirHJNivmGLYrow==" src=https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.1.0/languages/go.min.js></script><script async crossorigin=anonymous defer integrity="sha512-GDVzAn0wpx1yVtQsRWmFc6PhJiLBPdUic+h4GWgljBh904O3JU10fk9EKNpVyIoPqkFn54rgL2QBG4BmUTMpiQ==" src=https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.1.0/languages/http.min.js></script><script async crossorigin=anonymous defer integrity="sha512-UgZlma8NzkrDb/NWgmLIcTrH7i/CSnLLDRFqCSNF5NGPpjKmzyM25qcoXGOup8+cDakKyaiTDd7N4dyH4YT+IA==" src=https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.1.0/languages/less.min.js></script><script async crossorigin=anonymous defer integrity="sha512-lot9koe73sfXIrUvIPM/UEhuMciN56RPyBdOyZgfO53P2lkWyyXN7J+njcxIIBRV+nVDQeiWtiXg+bLAJZDTfg==" src=https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.1.0/languages/nginx.min.js></script><script async crossorigin=anonymous defer integrity="sha512-Zd3e7XxHP00TD0Imr0PIfeM0fl0v95kMWuhyAS3Wn1UTSXTkz0OhtRgBAr4JlmADRgiXr4x7lpeUdqaGN8xIog==" src=https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.1.0/languages/puppet.min.js></script><script async crossorigin=anonymous defer integrity="sha512-qtqDO052iXMSP+5d/aE/jMtL9vIIGvONgTJziC2K/ZIB1yEGa55WVxGE9/08rSQ62EoDifS9SWVGZ7ihSLhzMA==" src=https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.1.0/languages/scss.min.js></script><script async crossorigin=anonymous defer integrity="sha512-1NmkjnEDnwwwcu28KoQF8vs3oaPFokQHbmbtwGhFfeDsQZtVFI8zW2aE9O8yMYdpdyKV/5blE4pSWw4Z/Sv97w==" src=https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.1.0/languages/stylus.min.js></script><script async crossorigin=anonymous defer integrity="sha512-B2wSfruPjr8EJL6IIzQr1eAuDwrsfIfccNf/LCEdxELCgC/S/ZMt/Uvk80aD79m7IqOqW+Sw8nbkvha20yZpzg==" src=https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.1.0/languages/swift.min.js></script><script async crossorigin=anonymous defer integrity="sha512-28oDiQZGKUVN6wQ7PSLPNipOcmkCALXKwOi7bnkyFf8QiMZQxG9EQoy/iiNx6Zxj2cG2SbVa4dXKigQhu7GiFw==" src=https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.1.0/languages/yaml.min.js></script><script>$(document).ready(function(){hljs.configure({classPrefix:"",useBR:!1}),$("pre.code-highlight > code, pre > code").each(function(e,t){$(this).hasClass("codeblock")||$(this).addClass("codeblock"),hljs.highlightBlock(t)})})</script></body></html>
